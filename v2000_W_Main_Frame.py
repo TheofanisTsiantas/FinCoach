@@ -10,8 +10,8 @@ from PyQt5.QtWidgets import (
     QStyle
 )
 
-from v2001_W_MonthsColumn import W_Months_Column
-from v2002_W_GraphsColumn import W_Graphs_Column
+from v2001_W_Months_Column import W_Months_Column
+from v2002_W_Graphs_Column import W_Graphs_Column
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
