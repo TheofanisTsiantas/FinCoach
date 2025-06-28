@@ -7,7 +7,7 @@ from PyQt5.QtCore import pyqtSlot
 
 # Imports of custom modules
 from v1001_menu import Menu
-from v2000_Main_Frame import Main_Frame
+from v2000_W_Main_Frame import W_Main_Frame
 
 
 class Start_Window(QMainWindow):
@@ -17,7 +17,7 @@ class Start_Window(QMainWindow):
         self.setWindowTitle("PyQt Main Window with Imported Frame")
         self._init_size()
 
-        main_frame = Main_Frame(self)
+        main_frame = W_Main_Frame(self)
         self.setCentralWidget(main_frame)
 
 

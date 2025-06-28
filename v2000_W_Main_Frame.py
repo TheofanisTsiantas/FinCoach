@@ -10,10 +10,12 @@ from PyQt5.QtWidgets import (
     QStyle
 )
 
+from v2001_W_MonthsColumn import W_Months_Column
+
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
 
-class Main_Frame(QFrame):
+class W_Main_Frame(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -24,24 +26,10 @@ class Main_Frame(QFrame):
         main_frame_layout.setContentsMargins(5, 5, 5, 5)
         self.setLayout(main_frame_layout)
 
-        # ---------- Vertical layouts ----------
-        # --- Months
-        months_menu = QWidget()
-        months_menu.setStyleSheet("border: 1px solid black;")
+#        # ---------- Vertical layouts ----------
+        self.months_menu = W_Months_Column(self)
+        main_frame_layout.addWidget(self.months_menu,1)
 
-        months_VL = QVBoxLayout(months_menu)
-        
-        # Import month button
-        month_import = QPushButton("Import .csv")
-        month_import.setStyleSheet(IMPORT_BUTTON_STYLE)
-        months_VL.addWidget(month_import)
-
-        label = QLabel("January 1999")
-        months_VL.addWidget(label)
-
-        main_frame_layout.addWidget(months_menu)
-        main_frame_layout.addWidget(months_menu,1)
-        
         # --- Graphs
         graphs_menu = QWidget()
         graphs_menu.setStyleSheet("border: 1px solid black;")
