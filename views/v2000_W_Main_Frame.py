@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
-from v2001_W_Months import W_Months
-from v2002_W_Graphs import W_Graphs
+from v2001_View_Months import View_Months
+from v2002_View_Graphs import View_Graphs
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
@@ -26,11 +26,11 @@ class W_Main_Frame(QFrame):
         self.setLayout(main_frame_layout)
 
         # --- Months
-        self.months_menu = W_Months(self)
+        self.months_menu = View_Months(self)
         main_frame_layout.addWidget(self.months_menu,1)
 
         # --- Graphs
-        self.graphs_menu = W_Graphs(self)
+        self.graphs_menu = View_Graphs(self)
         main_frame_layout.addWidget(self.graphs_menu,4)
 
         # --- Info
