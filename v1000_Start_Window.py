@@ -14,7 +14,7 @@ class Start_Window(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("PyQt Main Window with Imported Frame")
+        self.setWindowTitle("Fin Coach v1.0")
         self._init_size()
 
         main_frame = W_Main_Frame(self)
