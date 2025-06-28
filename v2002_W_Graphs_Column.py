@@ -2,45 +2,45 @@
 
 from PyQt5.QtWidgets import (
     QVBoxLayout,
+    QHBoxLayout,
     QWidget,
-    QLabel,
-    QPushButton,
+    QFrame,
+    QLabel
 )
 
+import vh1000_Figure_Canvas as vh
+
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
-
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-
-class MplCanvas(FigureCanvas):
-    def __init__(self, parent=None):
-        fig = Figure()
-        self.axes = fig.add_subplot(111)
-        super(MplCanvas, self).__init__(fig)
-
 
 class W_Graphs_Column(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-
+        # Outer border
         self.setStyleSheet("border: 1px solid black;")
-
-        vertical_layout = QVBoxLayout(self)
-
-        label = QLabel("My graphs")
-        vertical_layout.addWidget(label)
-
-        canvas = MplCanvas(self)
+        # Widget layout
+        global_vertical_layout = QVBoxLayout(self)
+        # Top graph
+        canvas = vh.MplCanvas(self)
         canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3])
+        global_vertical_layout.addWidget(canvas)
+        # Bottom section (graph, stats)
+        bottom_horizontal_layout_frame = QFrame()
+        bottom_horizontal_layout = QHBoxLayout()
+        bottom_horizontal_layout_frame.setLayout(bottom_horizontal_layout)
+        global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
+        # Graph
+        canvas = vh.MplCanvas(self)
+        canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3], color='red')
+        bottom_horizontal_layout.addWidget(canvas)
+        
+        bottom_right_vertical_layout_frame = QFrame()
+        bottom_right_vertical_layout = QVBoxLayout()
+        bottom_right_vertical_layout_frame.setLayout(bottom_right_vertical_layout)
+        for i in range(0,4):
+            label = QLabel("Test"+str(i))
+            bottom_right_vertical_layout.addWidget(label)
+        bottom_horizontal_layout.addWidget(bottom_right_vertical_layout_frame)
 
-        vertical_layout.addWidget(canvas)
 
-        label = QLabel("My graphs2 ")
-        vertical_layout.addWidget(label)
-
-        canvas = MplCanvas(self)
-        canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3])
-
-        vertical_layout.addWidget(canvas)
 
 
