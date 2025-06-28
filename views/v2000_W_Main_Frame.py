@@ -5,9 +5,7 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QWidget,
-    QLabel,
-    QPushButton,
-    QStyle
+    QLabel
 )
 
 from v2001_W_Months_Column import W_Months_Column

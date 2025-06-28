@@ -19,15 +19,6 @@ class Start_Window(QMainWindow):
 
         main_frame = W_Main_Frame(self)
         self.setCentralWidget(main_frame)
-
-
-        # Create the central widget and layout
-#        central_widget = QWidget()
-#        layout = QVBoxLayout()
-#        label = QLabel("Click File -> New to see the message box")
-#        layout.addWidget(label)
-#        central_widget.setLayout(layout)
-#        self.setCentralWidget(central_widget)
         
         application_menu = Menu(self)
         self.show()
@@ -38,10 +29,6 @@ class Start_Window(QMainWindow):
         width = geomerty.width()
         height = geomerty.height()
         self.resize(int(width/1.2), height//2)
-
-
-
-
 
 
 def main():
