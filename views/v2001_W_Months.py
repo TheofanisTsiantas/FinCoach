@@ -12,7 +12,7 @@ from PyQt5.QtCore import pyqtSlot
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
-class W_Months_Column(QWidget):
+class W_Months(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
 
