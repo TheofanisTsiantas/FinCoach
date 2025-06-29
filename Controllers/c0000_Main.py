@@ -8,7 +8,11 @@ sys.path.append(APP_PATH)
 
 # Imports of custom modules
 from Controllers.c1000_Controllers import Controllers
+from Model.m0000_Model import Model
 
 #
 if __name__ == "__main__":
-    Controllers()
+    # Initialize model
+    application_model = Model()
+    #
+    Controllers(application_model)
