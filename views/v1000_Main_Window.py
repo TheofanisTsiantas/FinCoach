@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 # Imports of custom modules
 from Views.v1001_menu import Menu
-from Views.v2000_W_Main_Frame import W_Main_Frame
+from Views.v1001_Main_Frame import Main_Frame
 
 class View_Main_Window(QMainWindow):
     def __init__(self):
@@ -14,7 +14,7 @@ class View_Main_Window(QMainWindow):
         self.setWindowTitle("Fin Coach v1.0")
         self._init_size()
 
-        main_frame = W_Main_Frame(self)
+        main_frame = Main_Frame(self)
         self.setCentralWidget(main_frame)
         
         application_menu = Menu(self)

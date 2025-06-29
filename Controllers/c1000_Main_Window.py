@@ -3,16 +3,16 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 # Imports of custom modules
-from Controllers.c2001_Months import Controller_Months
-from Views.v1000_Main_Window import Main_Window
+from Views.v1000_Main_Window import View_Main_Window
 
-class Controllers:
+class Controller_Main_Window:
     def __init__(self):
-        #
-        app = QApplication(sys.argv)
-        app.setApplicationName("My App")
-        window = Main_Window()
-        window.show()
-        sys.exit(app.exec_())
+        # Create view of the main window
+        app = QApplication(sys.argv) # QApplication must get initialized prior to any QObject use
+        app.setApplicationName("My App")      
 
-        self.month_controller = Controller_Months()
+        self.viewObject = View_Main_Window()
+        self.viewObject.show()
+        #
+        #self.modelObject = Model_Months()
+        sys.exit(app.exec_())

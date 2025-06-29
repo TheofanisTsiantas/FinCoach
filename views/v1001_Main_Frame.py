@@ -14,7 +14,7 @@ from Views.v2002_Graphs import View_Graphs
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
 
-class W_Main_Frame(QFrame):
+class Main_Frame(QFrame):
     def __init__(self, parent=None):
         super().__init__(parent)
 
