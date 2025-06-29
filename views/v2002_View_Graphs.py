@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
-from .vh1000_Figure_Canvas import MplCanvas
+from views.vh1000_Figure_Canvas import MplCanvas
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
