@@ -29,6 +29,9 @@ class View_Months(QWidget):
         label = QLabel("January 1999")
         vertical_layout.addWidget(label)
 
+    def update(self, list_of_months):
+        for month in list_of_months:
+            print(month)
 
     @pyqtSlot()
     def _importCSV(self):
