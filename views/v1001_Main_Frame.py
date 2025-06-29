@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (
     QWidget,
     QLabel,
     QPushButton,
-    QFileDialog
+    QFileDialog,
+    QDialog
 )
 
 from PyQt5.QtCore import pyqtSlot
@@ -16,7 +17,8 @@ from typing import TYPE_CHECKING
 #
 from Views.v2001_Months import View_Months
 from Views.v2002_Graphs import View_Graphs
-
+from Helpers.Messages import Warning_Messages, Error_Messages
+from Views.v9000_Messagees import ErrorMessageDialog, YesNoDialog
 #
 if TYPE_CHECKING:
     from Controllers.c1001_Main_Frame import Controller_Main_Frame
@@ -78,10 +80,18 @@ class View_Main_Frame(QFrame):
         "CSV Files (*.csv);;"#           ;All Files (*)" 
         )
         if file_name and self.controlObject:
-            res = self.controlObject.read_months()
-            months_layout = View_Months(res)
-            # Remove old layout (by setting the parent to a temp object)
-            QWidget().setLayout(self.months_frame.layout())
-            # Assign the new Layout
-            self.months_frame.setLayout(months_layout)
+            res = self.controlObject.read_months(file_name)
+            if res == Warning_Messages.FILE_EXISTS:
+                dialog = YesNoDialog(res)
+                answer = dialog.exec_()  # This will block here until OK is clicked
+                if answer == QDialog.Accepted:
+                    print("User clicked Yes")
+                else:
+                    print("User clicked No")
+
+#            months_layout = View_Months(res)
+#            # Remove old layout (by setting the parent to a temp object)
+#            QWidget().setLayout(self.months_frame.layout())
+#            # Assign the new Layout
+#            self.months_frame.setLayout(months_layout)
             

@@ -9,5 +9,5 @@ class Controller_Main_Frame:
         self.view_object = View_Main_Frame
         self.model = model
 
-    def read_months(self):
-        return self.model.get_months()
+    def read_months(self, path : str):
+        return self.model.read_file(path)
