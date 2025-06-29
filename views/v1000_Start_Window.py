@@ -1,14 +1,11 @@
 # The main hosting window
 
 # Imports of libraries
-import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction,QMenuBar,QMessageBox,QWidget,QVBoxLayout,QLabel
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 # Imports of custom modules
-from v1001_menu import Menu
-from v2000_W_Main_Frame import W_Main_Frame
-
+from .v1001_menu import Menu
+from .v2000_W_Main_Frame import W_Main_Frame
 
 class Start_Window(QMainWindow):
     def __init__(self):
@@ -29,16 +26,3 @@ class Start_Window(QMainWindow):
         width = geomerty.width()
         height = geomerty.height()
         self.resize(int(width/1.2), height//2)
-
-
-def main():
-    app = QApplication(sys.argv)
-    app.setApplicationName("My App")
-    window = Start_Window()
-    window.show()
-    sys.exit(app.exec_())
-
-
-
-if __name__ == "__main__":
-    main()

@@ -1,0 +1,1 @@
+# Empty file to enforce python to treat views as a package

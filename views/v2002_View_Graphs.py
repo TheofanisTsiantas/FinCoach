@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
-import vh1000_Figure_Canvas as vh
+from .vh1000_Figure_Canvas import MplCanvas
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
@@ -20,7 +20,7 @@ class View_Graphs(QWidget):
         # Widget layout
         global_vertical_layout = QVBoxLayout(self)
         # Top graph
-        canvas = vh.MplCanvas(self)
+        canvas = MplCanvas(self)
         canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3])
         global_vertical_layout.addWidget(canvas)
         # Bottom section (graph, stats)
@@ -29,7 +29,7 @@ class View_Graphs(QWidget):
         bottom_horizontal_layout_frame.setLayout(bottom_horizontal_layout)
         global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
         # Graph
-        canvas = vh.MplCanvas(self)
+        canvas = MplCanvas(self)
         canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3], color='red')
         bottom_horizontal_layout.addWidget(canvas)
         

@@ -8,8 +8,8 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
-from v2001_View_Months import View_Months
-from v2002_View_Graphs import View_Graphs
+from .v2001_View_Months import View_Months
+from .v2002_View_Graphs import View_Graphs
 
 IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
