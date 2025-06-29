@@ -84,8 +84,8 @@ class View_Main_Frame(QFrame):
             if isinstance(res, Warning_Messages):
                 dialog = YesNoDialog(res.value)
                 answer = dialog.exec_()  # This will block here until OK is clicked
-                if answer == QDialog.Accepted:
-                    print("User clicked Yes")
+                if not answer == QDialog.Accepted:
+                    return
                 else:
                     print("User clicked No")
 

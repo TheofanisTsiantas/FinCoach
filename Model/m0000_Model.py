@@ -20,14 +20,16 @@ class Model:
             # Transform date to appropriate format
             df["Date"] = pd.to_datetime(df["Date"], dayfirst=True, errors="coerce")
             month_year = (df['Date'].dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)).unique()
+            # Check for error in file
             if len(month_year)>1:
                 return Error_Messages.INVALID_FORMAT
             elif not month_year:
                 return Error_Messages.EMPTY_DATA
+        # Check for value read exceptions
         except Exception as e:
             Error_Messages.EXCEPTION += e
             return Error_Messages.EXCEPTION
-        
+        # Warn in case of existing file
         if month_year in self.month_year:
             return Warning_Messages.FILE_EXISTS
         
