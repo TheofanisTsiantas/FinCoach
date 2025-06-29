@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import QApplication
 
 # Imports of custom modules
 from Controllers.c2000_Controller_Months import Controller_Months
-from views.v1000_Start_Window import Start_Window
+from Views.v1000_Start_Window import Start_Window
 
 class Controllers:
     def __init__(self):
