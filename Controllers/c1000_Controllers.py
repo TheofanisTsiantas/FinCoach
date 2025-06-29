@@ -4,15 +4,9 @@ from PyQt5.QtWidgets import QApplication
 
 # Imports of custom modules
 from Controllers.c2001_Months import Controller_Months
-from Views.v1000_Main_Window import View_Main_Window
+from Controllers.c1000_Main_Window import Controller_Main_Window
 
 class Controllers:
     def __init__(self):
-        #
-        app = QApplication(sys.argv)
-        app.setApplicationName("My App")
-        window = View_Main_Window()
-        window.show()
-        sys.exit(app.exec_())
-
+        self.main_window_controller = Controller_Main_Window()
         self.month_controller = Controller_Months()
