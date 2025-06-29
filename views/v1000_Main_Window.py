@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 from Views.v1001_menu import Menu
 from Views.v2000_W_Main_Frame import W_Main_Frame
 
-class Main_Window(QMainWindow):
+class View_Main_Window(QMainWindow):
     def __init__(self):
         super().__init__()
 

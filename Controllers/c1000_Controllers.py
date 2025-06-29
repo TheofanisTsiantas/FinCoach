@@ -4,14 +4,14 @@ from PyQt5.QtWidgets import QApplication
 
 # Imports of custom modules
 from Controllers.c2001_Months import Controller_Months
-from Views.v1000_Main_Window import Main_Window
+from Views.v1000_Main_Window import View_Main_Window
 
 class Controllers:
     def __init__(self):
         #
         app = QApplication(sys.argv)
         app.setApplicationName("My App")
-        window = Main_Window()
+        window = View_Main_Window()
         window.show()
         sys.exit(app.exec_())
 
