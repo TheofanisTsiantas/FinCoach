@@ -9,5 +9,5 @@ class Controller_Main_Frame:
         self.view_object = View_Main_Frame
         self.model = model
 
-    def test(self):
-        print("Hi from controller")
+    def read_months(self):
+        return self.model.get_months()

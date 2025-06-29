@@ -47,11 +47,11 @@ class View_Main_Frame(QFrame):
         month_import.clicked.connect(self._importCSV)
         vertical_layout.addWidget(month_import)
         # View of months
-        months_frame = QWidget()
-        months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
-        months_layout = View_Months()
-        months_frame.setLayout(months_layout)
-        vertical_layout.addWidget(months_frame,1)
+        self.months_frame = QWidget()
+        self.months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
+        months_layout = View_Months([])
+        self.months_frame.setLayout(months_layout)
+        vertical_layout.addWidget(self.months_frame,1)
         main_frame_layout.addWidget(vertical_frame,1)
 
         # --- Graphs
@@ -78,6 +78,10 @@ class View_Main_Frame(QFrame):
         "CSV Files (*.csv);;"#           ;All Files (*)" 
         )
         if file_name and self.controlObject:
-            self.controlObject.test()
-            # print("Selected file:", file_name)
-            # TODO: Do something with the file (e.g., load data)
+            res = self.controlObject.read_months()
+            months_layout = View_Months(res)
+            # Remove old layout (by setting the parent to a temp object)
+            QWidget().setLayout(self.months_frame.layout())
+            # Assign the new Layout
+            self.months_frame.setLayout(months_layout)
+            
