@@ -32,12 +32,13 @@ class View_Months(QVBoxLayout):
                 label.setStyleSheet("border: 0px; margin: 5px")
                 self.addWidget(label)
                 self.labels.append(label)
-                label.clicked.connect(lambda: self._label_clicked(month))
+                label.clicked.connect(lambda text=label.text(): self._label_clicked(text))
 
         self.addStretch()
 
     # Private method to handle the view logic
     def _label_clicked(self, month:str):
+        print(f"Clickable moncth: {month}")
         # Remove any existing background (from previous selections)
         for label in self.labels:
             label.setStyleSheet("background-color: white; color: black; border: 0px; margin: 5px")
@@ -46,6 +47,7 @@ class View_Months(QVBoxLayout):
 
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()
+
     def mousePressEvent(self, event):
         # Remove background
         self.clicked.emit()

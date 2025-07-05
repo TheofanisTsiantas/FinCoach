@@ -32,7 +32,12 @@ class Controller_Main_Frame:
         months.sort()
         # Call view update
         self.view_object.update_months_view(months)
+        # Remove any list with transactions
+        self.update_transactions_view()
 
-    def update_transactions_view(self, selected_month:str):
-        transactions = self.model.get_transactions(selected_month)
-        self.view_object.update_transactions_view(transactions)
+    def update_transactions_view(self, selected_month:str=''):
+        if selected_month=='':
+            self.view_object.update_transactions_view([])
+        else:
+            transactions = self.model.get_transactions(selected_month)
+            self.view_object.update_transactions_view(transactions)
