@@ -17,8 +17,8 @@ from typing import TYPE_CHECKING
 #
 from Views.v2001_Months import View_Months
 from Views.v2002_Graphs import View_Graphs
-from Helpers.Messages import Warning_Messages, Error_Messages
-from Views.v9000_Messagees import ErrorMessageDialog, YesNoDialog
+from Helpers.Messages import Warning_Messages, Error_Messages, Success_Messages
+from Views.v9000_Messagees import Error_Message_Dialog, Yes_No_Dialog, Info_Message_Dialog
 #
 if TYPE_CHECKING:
     from Controllers.c1001_Main_Frame import Controller_Main_Frame
@@ -80,16 +80,21 @@ class View_Main_Frame(QFrame):
         "CSV Files (*.csv);;"#           ;All Files (*)" 
         )
         if file_name and self.controlObject:
+            print("READINGGGG")
             res = self.controlObject.read_months(file_name)
             if isinstance(res, Warning_Messages):
-                dialog = YesNoDialog(res.value)
+                dialog = Yes_No_Dialog(res.value)
                 answer = dialog.exec_()
                 if not answer == QDialog.Accepted:
                     return
                 else:
-                    print("User clicked Yes")
+                    self.controlObject.read_replace_file(file_name)
+                    Info_Message_Dialog("File read successfully.").exec_()
             elif isinstance(res, Error_Messages):
-                QMessageBox.critical(self,"Error",res.value,QMessageBox.Ok)
+                Error_Message_Dialog(res.value)
+                return
+            elif isinstance(res, Success_Messages):
+                Info_Message_Dialog(res.value)
                 return
 
 #            months_layout = View_Months(res)

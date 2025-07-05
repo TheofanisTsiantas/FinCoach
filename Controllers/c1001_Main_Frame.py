@@ -11,3 +11,6 @@ class Controller_Main_Frame:
 
     def read_months(self, path : str):
         return self.model.read_file(path)
+    
+    def read_replace_file(self, path : str):
+        return self.model.read_replace_file(path)

@@ -7,4 +7,7 @@ class Error_Messages(Enum):
 
 class Warning_Messages(Enum):
     FILE_EXISTS = "The specified file has been read already. Do you want to replace the data?"
+
+class Success_Messages(Enum):
+    FILE_READ = "File successfully read."
     
