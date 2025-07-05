@@ -5,10 +5,9 @@ from PyQt5.QtWidgets import (
     QHBoxLayout,
     QVBoxLayout,
     QWidget,
-    QLabel,
     QPushButton,
     QFileDialog,
-    QDialog, QMessageBox
+    QDialog
 )
 
 from PyQt5.QtCore import pyqtSlot
