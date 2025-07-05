@@ -7,7 +7,6 @@ class Model:
         self.data = pd.DataFrame()
 
     def read_file(self, path:str):
-        print(f"file = {path}")
         if not path.lower().endswith(".csv"):
             return []
         try:
@@ -15,7 +14,6 @@ class Model:
             df = self._read_file(path)
             # Transform date to appropriate format
             month_year = df['Date'].unique()
-            print(month_year)
             # Check for error in file
             if len(month_year)>1:
                 return Error_Messages.INVALID_FORMAT
@@ -42,8 +40,7 @@ class Model:
         self.data = self.data[self.data['Date']!=replace_month]
         # Concatinate
         self.data = pd.concat([self.data, df], ignore_index=True)
-        print(self.data)
-
+        
     def get_months(self):
         return self.data['Date'].unique()
 
