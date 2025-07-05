@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QFileDialog,
-    QDialog
+    QDialog, QMessageBox
 )
 
 from PyQt5.QtCore import pyqtSlot
@@ -83,11 +83,14 @@ class View_Main_Frame(QFrame):
             res = self.controlObject.read_months(file_name)
             if isinstance(res, Warning_Messages):
                 dialog = YesNoDialog(res.value)
-                answer = dialog.exec_()  # This will block here until OK is clicked
+                answer = dialog.exec_()
                 if not answer == QDialog.Accepted:
                     return
                 else:
-                    print("User clicked No")
+                    print("User clicked Yes")
+            elif isinstance(res, Error_Messages):
+                QMessageBox.critical(self,"Error",res.value,QMessageBox.Ok)
+                return
 
 #            months_layout = View_Months(res)
 #            # Remove old layout (by setting the parent to a temp object)
