@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING
 #
 from Views.v2001_Months import View_Months
 from Views.v2002_Graphs import View_Graphs
+from Views.v2002_Transactions import View_Transactions
 from Helpers.Messages import Warning_Messages, Error_Messages, Success_Messages
 from Views.v9000_Messagees import Error_Message_Dialog, Yes_No_Dialog, Info_Message_Dialog
 #
@@ -63,9 +64,8 @@ class View_Main_Frame(QFrame):
         # --- Info
         info_menu = QWidget()
         info_menu.setStyleSheet("border: 1px solid black;")
-        info_VL = QVBoxLayout(info_menu)
-        label = QLabel("Details")
-        info_VL.addWidget(label)
+        transactions = View_Transactions()
+        info_menu.setLayout(transactions)
 
         # main_frame_layout.addWidget(info_menu)
         main_frame_layout.addWidget(info_menu,2)
@@ -80,7 +80,6 @@ class View_Main_Frame(QFrame):
         "CSV Files (*.csv);;"#           ;All Files (*)" 
         )
         if file_name and self.controlObject:
-            print("READINGGGG")
             res = self.controlObject.read_months(file_name)
             if isinstance(res, Warning_Messages):
                 dialog = Yes_No_Dialog(res.value)

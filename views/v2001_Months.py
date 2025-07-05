@@ -12,7 +12,7 @@ class View_Months(QVBoxLayout):
         self.setSpacing(3)
         self.setContentsMargins(5, 5, 5, 5)
         
-        if len(months)==0:
+        if months is None or len(months)==0:
             label = QLabel("No months read")
             label.setStyleSheet("border: 0px")
             self.addWidget(label)

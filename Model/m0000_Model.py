@@ -24,7 +24,7 @@ class Model:
             Error_Messages.EXCEPTION += e
             return Error_Messages.EXCEPTION
         # Warn in case of existing file
-        if month_year in self.get_months():
+        if month_year[0] in self.get_months():
             return Warning_Messages.FILE_EXISTS
         # Read file and append existing model
         df = self._read_file(path)
@@ -42,6 +42,11 @@ class Model:
         self.data = pd.concat([self.data, df], ignore_index=True)
         
     def get_months(self):
+        print(f"{self.data}")
+        if self.data.empty:
+            return []
+        elif 'Date' not in self.data.columns: 
+            return []
         return self.data['Date'].unique()
 
     def _read_file(self, path:str):
@@ -53,3 +58,5 @@ class Model:
         df['Date'] = pd.to_datetime(df['Date'], dayfirst=True, errors="coerce")
         df['Date'] = df['Date'].dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)
         return df
+    
+
