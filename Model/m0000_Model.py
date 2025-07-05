@@ -5,11 +5,6 @@ from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 class Model:
     def __init__(self):
         self.data = pd.DataFrame()
-        # temp
-        self.data = pd.read_csv('/Users/theofanistsiantas/Downloads/test.csv', sep=";")
-        self.data.drop(columns=['ZKB reference', 'Reference number', 'Credit CHF', 'Balance CHF'], inplace=True)
-        self.data['Date'] = pd.to_datetime(self.data['Date'], dayfirst=True, errors="coerce")
-        self.data['Date'] = self.data['Date'].dt.month.astype(str) + "-" + self.data['Date'].dt.year.astype(str)
 
     def read_file(self, path:str):
         print(f"file = {path}")

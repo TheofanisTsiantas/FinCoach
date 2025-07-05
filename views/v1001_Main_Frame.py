@@ -96,10 +96,10 @@ class View_Main_Frame(QFrame):
             elif isinstance(res, Success_Messages):
                 Info_Message_Dialog(res.value)
                 return
-
-#            months_layout = View_Months(res)
-#            # Remove old layout (by setting the parent to a temp object)
-#            QWidget().setLayout(self.months_frame.layout())
-#            # Assign the new Layout
-#            self.months_frame.setLayout(months_layout)
             
+    def update_months_view(self, months:list):
+        months_layout = View_Months(months)
+        # Remove old layout (by setting the parent to a temp object)
+        QWidget().setLayout(self.months_frame.layout())
+        # Assign the new Layout
+        self.months_frame.setLayout(months_layout)
