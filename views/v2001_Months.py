@@ -7,6 +7,11 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import pyqtSignal
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from Controllers.c1001_Main_Frame import Controller_Main_Frame
+
 class View_Months(QVBoxLayout):
     def __init__(self, months:list =[] , parent=None):
         super().__init__(parent)
@@ -14,8 +19,8 @@ class View_Months(QVBoxLayout):
         self.setSpacing(3)
         self.setContentsMargins(5, 5, 5, 5)
         self.labels: list[QLabel] = []
+        self.controlObject : Controller_Main_Frame = None
 
-        
         if months is None or len(months)==0:
             label = QLabel("No months read")
             label.setStyleSheet("border: 0px; margin: 5px")
@@ -27,14 +32,17 @@ class View_Months(QVBoxLayout):
                 label.setStyleSheet("border: 0px; margin: 5px")
                 self.addWidget(label)
                 self.labels.append(label)
-                label.clicked.connect(self._clean_background)
+                label.clicked.connect(lambda: self._label_clicked(month))
 
         self.addStretch()
 
-    # Private method to remove the background of all months (in case one has been selected before)
-    def _clean_background(self):
+    # Private method to handle the view logic
+    def _label_clicked(self, month:str):
+        # Remove any existing background (from previous selections)
         for label in self.labels:
             label.setStyleSheet("background-color: white; color: black; border: 0px; margin: 5px")
+        # Inform the cotroller that transactions must be updated according to selected "month"
+        self.controlObject.update_transactions_view(month)
 
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()
@@ -43,7 +51,5 @@ class ClickableLabel(QLabel):
         self.clicked.emit()
         # Set backround of the current one to blue
         self.setStyleSheet("background-color: rgb(47, 117, 250); color: white; border: 0px; border-radius:5px; margin: 5px")
-        #
-
         # Default functionality fallback
         super().mousePressEvent(event)

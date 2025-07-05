@@ -14,10 +14,12 @@ class View_Transactions(QVBoxLayout):
 
         if len(transactions)==0:
             label = QLabel("No month selected")
+            label.setStyleSheet("border: 0px; margin: 5px")
             self.addWidget(label)
         else:
             for transaction in transactions:
-                label = QLabel(transaction)
+                label = QLabel(transaction[0]+":  "+str(transaction[1]))
+                label.setStyleSheet("border: 0px; margin: 5px")
                 self.addWidget(label)
 
         self.addStretch()

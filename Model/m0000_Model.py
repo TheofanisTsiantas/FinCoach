@@ -42,7 +42,6 @@ class Model:
         self.data = pd.concat([self.data, df], ignore_index=True)
         
     def get_months(self):
-        print(f"{self.data}")
         if self.data.empty:
             return []
         elif 'Date' not in self.data.columns: 
@@ -59,4 +58,10 @@ class Model:
         df['Date'] = df['Date'].dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)
         return df
     
+    def get_transactions(self, month:str):
+        if self.data.empty:
+            return []
+        elif 'Date' not in self.data.columns: 
+            return []
+        return self.data[self.data['Date']==month][['Booking text', 'Debit CHF']].values.tolist()
 

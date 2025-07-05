@@ -32,3 +32,7 @@ class Controller_Main_Frame:
         months.sort()
         # Call view update
         self.view_object.update_months_view(months)
+
+    def update_transactions_view(self, selected_month:str):
+        transactions = self.model.get_transactions(selected_month)
+        self.view_object.update_transactions_view(transactions)

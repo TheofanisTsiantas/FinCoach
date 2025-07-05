@@ -7,7 +7,8 @@ from PyQt5.QtWidgets import (
     QWidget,
     QPushButton,
     QFileDialog,
-    QDialog
+    QDialog,
+    QScrollArea
 )
 
 from PyQt5.QtCore import pyqtSlot
@@ -52,6 +53,7 @@ class View_Main_Frame(QFrame):
         self.months_frame = QWidget()
         self.months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
         months_layout = View_Months([])
+        months_layout.controlObject = self.controlObject # Passing the controller for signals
         self.months_frame.setLayout(months_layout)
         vertical_layout.addWidget(self.months_frame,1)
         main_frame_layout.addWidget(vertical_frame,1)
@@ -60,14 +62,17 @@ class View_Main_Frame(QFrame):
         self.graphs_menu = View_Graphs(self)
         main_frame_layout.addWidget(self.graphs_menu,4)
 
-        # --- Info
-        info_menu = QWidget()
-        info_menu.setStyleSheet("border: 1px solid black;")
+        # --- Transactions
+        self.scroll_area = QScrollArea()
+        self.scroll_area.setWidgetResizable(True)  # So content can expand inside
+        transactions_frame = QWidget()
+        transactions_frame.setStyleSheet("border: 1px solid black;")
         transactions = View_Transactions()
-        info_menu.setLayout(transactions)
+        transactions_frame.setLayout(transactions)
+        self.scroll_area.setWidget(transactions_frame)
 
         # main_frame_layout.addWidget(info_menu)
-        main_frame_layout.addWidget(info_menu,2)
+        main_frame_layout.addWidget(self.scroll_area,2)
 
     @pyqtSlot()
     def _importCSV(self):
@@ -97,7 +102,21 @@ class View_Main_Frame(QFrame):
             
     def update_months_view(self, months:list):
         months_layout = View_Months(months)
+        months_layout.controlObject = self.controlObject # Passing the controller for signals
         # Remove old layout (by setting the parent to a temp object)
         QWidget().setLayout(self.months_frame.layout())
         # Assign the new Layout
         self.months_frame.setLayout(months_layout)
+
+    def update_transactions_view(self, transactions:list):
+        transactions_layout = View_Transactions(transactions)
+        transactions_frame = QWidget()
+        #
+        # QWidget().setLayout(transactions_frame.layout())
+        #
+        #self.scroll_area = QScrollArea()
+        self.scroll_area.setWidget(QWidget())
+
+        self.scroll_area.setWidgetResizable(True)  # So content can expand inside
+        transactions_frame.setLayout(transactions_layout)
+        self.scroll_area.setWidget(transactions_frame)
