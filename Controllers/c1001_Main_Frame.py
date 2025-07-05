@@ -29,5 +29,6 @@ class Controller_Main_Frame:
     def _update_months_view(self):
         # Get current months from model
         months = self.model.get_months()
+        months.sort()
         # Call view update
         self.view_object.update_months_view(months)
