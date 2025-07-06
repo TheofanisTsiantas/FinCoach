@@ -1,11 +1,7 @@
 # The view of the months list
 
 from PyQt5.QtWidgets import (
-    QVBoxLayout,
-    QHBoxLayout,
     QLabel,
-    QWidget,
-    QSizePolicy,
     QGridLayout
 )
 
