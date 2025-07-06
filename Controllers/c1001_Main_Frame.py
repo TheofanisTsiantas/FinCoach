@@ -37,7 +37,7 @@ class Controller_Main_Frame:
 
     def update_transactions_view(self, selected_month:str=''):
         if selected_month=='':
-            self.view_object.update_transactions_view([])
+            self.view_object.update_transactions_view({})
         else:
             transactions = self.model.get_transactions(selected_month)
             self.view_object.update_transactions_view(transactions)
