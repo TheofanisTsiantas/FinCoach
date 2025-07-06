@@ -1,15 +1,6 @@
 import pandas as pd
 
-TRANSACTION_CATEGORIES = {'Appartment':['FUSION IMMOBILIEN', 'WASHMASTER'], 
-                          'Health':['Amavita','Rotpunkt','Atupri','Oschner'], 
-                          'Investments':[], 
-                          'Super Market':['Coop','Migors','Lidl','Aldi','Topolino'], 
-                          'Restaurant, etc.':['Gastro Technopark','TIBITS','FOOD','TOO GOOD TO GO','GUSTRA','DYNAMO','Bar','Cafe'], 
-                          'Transportation':['SBB'], 
-                          'Phone/Internet':['SALT MOBILE'], 
-                          'Entertainment':['KINO'], 
-                          'Other':[]
-                          }
+from Helpers import Categories
 
 
 def import_data(path:str):
@@ -22,4 +13,22 @@ def import_data(path:str):
     # Transform date to appropriate format
     df['Date'] = pd.to_datetime(df['Date'], dayfirst=True, errors="coerce")
     df['Date'] = df['Date'].dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)
+    # Assign categories to dataframe (as empty columns)
+    for category in Categories.TRANSACTION_CATEGORIES.keys():
+        df[category] = ""
+    # Move data to the categories
+    for idx, row in df.iterrows():
+        category_assigned = False
+        for category, keywords in Categories.TRANSACTION_CATEGORIES.items():
+            for keyword in keywords:
+                if keyword.lower() in row['Booking text'].strip().lower():
+                    df.at[idx, category]=row['Booking text']
+                    category_assigned = True
+                    break
+            if category_assigned == True:
+                break
+        if category_assigned==False:
+            df.at[idx, 'Other']=row['Booking text']
+    # Delete the booking text category
+    df.drop(columns=['Booking text'], inplace=True)
     return df
