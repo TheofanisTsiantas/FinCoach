@@ -2,6 +2,8 @@ import pandas as pd
 
 from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 
+import Model.m0001_Model_Static_Methods as msm
+
 class Model:
     def __init__(self):
         self.data = pd.DataFrame()
@@ -11,7 +13,7 @@ class Model:
             return []
         try:
             # Read file
-            df = self._read_file(path)
+            df = msm.import_data(path)
             # Transform date to appropriate format
             month_year = df['Date'].unique()
             # Check for error in file
@@ -27,7 +29,7 @@ class Model:
         if month_year[0] in self.get_months():
             return Warning_Messages.FILE_EXISTS
         # Read file and append existing model
-        df = self._read_file(path)
+        df = msm.import_data(path)
         self.data = pd.concat([self.data, df], ignore_index=True)
         return Success_Messages.FILE_READ
 
@@ -48,16 +50,6 @@ class Model:
         elif 'Date' not in self.data.columns: 
             return []
         return self.data['Date'].unique()
-
-    def _read_file(self, path:str):
-        # Read the month with the replacement data
-        df = pd.read_csv(path, sep=";")
-        # Remove unecessary data
-        df.drop(columns=['ZKB reference', 'Reference number', 'Credit CHF', 'Balance CHF'], inplace=True)
-        # Transform date to appropriate format
-        df['Date'] = pd.to_datetime(df['Date'], dayfirst=True, errors="coerce")
-        df['Date'] = df['Date'].dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)
-        return df
     
     def get_transactions(self, month:str):
         if self.data.empty:
