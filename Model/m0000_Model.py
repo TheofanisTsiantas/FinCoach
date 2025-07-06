@@ -40,6 +40,7 @@ class Model:
         self.data = self.data[self.data['Date']!=replace_month]
         # Concatinate
         self.data = pd.concat([self.data, df], ignore_index=True)
+        return Success_Messages.FILE_READ
         
     def get_months(self):
         if self.data.empty:
