@@ -60,7 +60,7 @@ class View_Transactions(QVBoxLayout):
         self.addWidget(horizontal_frame_group)
         # Space (for upcoming widgets afterwards)
         dummy_widget = QWidget(); vh.neutralize_widget_style(dummy_widget)
-        dummy_layout = QVBoxLayout(dummy_widget);
+        dummy_layout = QVBoxLayout(dummy_widget); # Necessary for space
         self.addWidget(dummy_widget)
 
 
