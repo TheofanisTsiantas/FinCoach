@@ -5,17 +5,19 @@ from PyQt5.QtWidgets import (
     QGridLayout
 )
 
+from PyQt5.QtCore import Qt
+
 import Views.vh1001_View_Styles as vh 
 
 class View_Transactions(QGridLayout):
     def __init__(self, transactions:dict ={} , parent=None):
         super().__init__(parent)
-        vh.neutralize_layout_style(self)
+        vh.neutral_layout_style(self)
 
         if not transactions:
             label = QLabel("No month selected")
             label.setStyleSheet("border: 0px; margin: 5px")
-            self.addWidget(label)
+            self.addWidget(label,0, 0, alignment=Qt.AlignTop)
         else:
             rowpos = [0] # To enable pass by reference
             for category, transaction_items in transactions.items():
@@ -28,12 +30,18 @@ class View_Transactions(QGridLayout):
         if sum_of_transactions == 0:
             return
         # Add category and transactions
-        self.addWidget(QLabel(category),rowpos[0], 0)
-        self.addWidget(QLabel(str(sum_of_transactions)+" CHF"),rowpos[0], 1)
+        label_title = QLabel(category)
+        vh.add_label_left_padding_style(label_title)
+        self.addWidget(label_title,rowpos[0], 0)
+        label_sum = QLabel(str(sum_of_transactions)+" CHF")
+        vh.add_label_left_padding_style(label_sum)
+        self.addWidget(label_sum,rowpos[0], 1)
         rowpos[0] += 1
         for i, transaction in enumerate(transactions):
             label_transaction = QLabel(transaction[1])
+            vh.add_label_left_padding_style(label_transaction)
             label_cost = QLabel(str(transaction[0])+" CHF")
+            vh.add_label_left_padding_style(label_cost)
             self.addWidget(label_cost,rowpos[0], 0)
             self.addWidget(label_transaction,rowpos[0], 1)
             rowpos[0] += 1

@@ -9,25 +9,32 @@ from PyQt5.QtWidgets import (
 )
 
 from Views.vh1000_Figure_Canvas import MplCanvas
+import Views.vh1001_View_Styles as vh 
 
-IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
+class View_Graphs():
+    def __init__(self, widget:QWidget, parent=None):
 
-class View_Graphs(QWidget):
-    def __init__(self, parent=None):
-        super().__init__(parent)
-        # Outer border
-        self.setStyleSheet("border: 1px solid black;")
-        # Widget layout
-        global_vertical_layout = QVBoxLayout(self)
-        # Top graph
+        global_vertical_layout = QVBoxLayout(widget)
+        vh.medium_margin_layout_style(global_vertical_layout)
+
+        # Top graph 
+        top_graph_widget = QWidget(); vh.neutral_widget_style(top_graph_widget); vh.medium_round_widget_corners(top_graph_widget)
+        top_graph_layout = QHBoxLayout();
+
         canvas = MplCanvas(self)
         canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3])
-        global_vertical_layout.addWidget(canvas)
+
+        top_graph_layout.addWidget(canvas)
+        top_graph_widget.setLayout(top_graph_layout)
+        global_vertical_layout.addWidget(top_graph_widget)
+
+
         # Bottom section (graph, stats)
         bottom_horizontal_layout_frame = QFrame()
         bottom_horizontal_layout = QHBoxLayout()
         bottom_horizontal_layout_frame.setLayout(bottom_horizontal_layout)
         global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
+
         # Graph
         canvas = MplCanvas(self)
         canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3], color='red')
@@ -40,6 +47,9 @@ class View_Graphs(QWidget):
             label = QLabel("Test"+str(i))
             bottom_right_vertical_layout.addWidget(label)
         bottom_horizontal_layout.addWidget(bottom_right_vertical_layout_frame)
+    
+#        self.setStyleSheet("border: 1px green black;")
+
 
 
 

@@ -8,7 +8,8 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QFileDialog,
     QDialog,
-    QScrollArea
+    QScrollArea,
+    QLabel
 )
 
 from PyQt5.QtCore import pyqtSlot
@@ -20,11 +21,11 @@ from Views.v2002_Graphs import View_Graphs
 from Views.v2002_Transactions import View_Transactions
 from Helpers.Messages import Warning_Messages, Error_Messages, Success_Messages
 from Views.v9000_Messagees import Error_Message_Dialog, Yes_No_Dialog, Info_Message_Dialog
+import Views.vh1001_View_Styles as vh 
+
 #
 if TYPE_CHECKING:
     from Controllers.c1001_Main_Frame import Controller_Main_Frame
-
-IMPORT_BUTTON_STYLE = """ QPushButton { background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey; }"""
 
 class View_Main_Frame(QFrame):
     def __init__(self, parent=None):
@@ -34,24 +35,24 @@ class View_Main_Frame(QFrame):
         self.controlObject : Controller_Main_Frame = None
 
         self.setFrameShape(QFrame.Box)
-        self.setStyleSheet("border: 1px solid black; background-color: #eeeeee;")
 
         main_frame_layout = QHBoxLayout()
-        main_frame_layout.setContentsMargins(5, 5, 5, 5)
+
         self.setLayout(main_frame_layout)
 
         # --- Months
         vertical_frame = QWidget(self)
-        vertical_frame.setStyleSheet("border: 0.5px solid black;")
         vertical_layout = QVBoxLayout(vertical_frame)
         # Import button
         month_import = QPushButton("Import .csv")
-        month_import.setStyleSheet(IMPORT_BUTTON_STYLE)
+        vh.import_button_style(month_import)
         month_import.clicked.connect(self._importCSV)
         vertical_layout.addWidget(month_import)
         # View of months
         self.months_frame = QWidget()
-        self.months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
+        vh.neutral_widget_style(self.months_frame)
+        vh.small_round_widget_corners(self.months_frame)
+        #self.months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
         months_layout = View_Months([])
         months_layout.controlObject = self.controlObject # Passing the controller for signals
         self.months_frame.setLayout(months_layout)
@@ -59,20 +60,25 @@ class View_Main_Frame(QFrame):
         main_frame_layout.addWidget(vertical_frame,1)
 
         # --- Graphs
-        self.graphs_menu = View_Graphs(self)
-        main_frame_layout.addWidget(self.graphs_menu,4)
+        graph_widget = QWidget()
+        self.graphs_menu = View_Graphs(graph_widget)
+#        self.graphs_menu.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
+        graph_widget.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
+        main_frame_layout.addWidget(graph_widget,4)
+        #main_frame_layout.addWidget(self.graphs_menu,4)
 
         # --- Transactions
         self.scroll_area = QScrollArea()
+        vh.scrollable_area_style(self.scroll_area)
         self.scroll_area.setWidgetResizable(True)  # So content can expand inside
         transactions_frame = QWidget()
-        transactions_frame.setStyleSheet("border: 1px solid black;")
         transactions = View_Transactions()
         transactions_frame.setLayout(transactions)
         self.scroll_area.setWidget(transactions_frame)
 
-        # main_frame_layout.addWidget(info_menu)
         main_frame_layout.addWidget(self.scroll_area,2)
+
+        vh.small_margin_layout_style(main_frame_layout)
 
     @pyqtSlot()
     def _importCSV(self):
