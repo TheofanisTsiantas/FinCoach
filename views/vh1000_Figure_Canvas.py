@@ -1,4 +1,4 @@
-# A helping class of the view facilitating in placing a figure in a canvas
+# A helper class of the view facilitating in placing a figure in a canvas
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
