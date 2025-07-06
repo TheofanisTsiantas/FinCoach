@@ -38,7 +38,6 @@ class View_Months(QVBoxLayout):
 
     # Private method to handle the view logic
     def _label_clicked(self, month:str):
-        print(f"Clickable moncth: {month}")
         # Remove any existing background (from previous selections)
         for label in self.labels:
             label.setStyleSheet("background-color: white; color: black; border: 0px; margin: 5px")

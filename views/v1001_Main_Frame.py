@@ -111,12 +111,7 @@ class View_Main_Frame(QFrame):
     def update_transactions_view(self, transactions:list):
         transactions_layout = View_Transactions(transactions)
         transactions_frame = QWidget()
-        #
-        # QWidget().setLayout(transactions_frame.layout())
-        #
-        #self.scroll_area = QScrollArea()
         self.scroll_area.setWidget(QWidget())
-
         self.scroll_area.setWidgetResizable(True)  # So content can expand inside
         transactions_frame.setLayout(transactions_layout)
         self.scroll_area.setWidget(transactions_frame)
