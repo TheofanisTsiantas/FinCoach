@@ -108,7 +108,7 @@ class View_Main_Frame(QFrame):
         # Assign the new Layout
         self.months_frame.setLayout(months_layout)
 
-    def update_transactions_view(self, transactions:list):
+    def update_transactions_view(self, transactions:dict):
         transactions_layout = View_Transactions(transactions)
         transactions_frame = QWidget()
         self.scroll_area.setWidget(QWidget())

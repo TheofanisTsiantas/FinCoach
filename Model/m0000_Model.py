@@ -1,6 +1,7 @@
 import pandas as pd
 
 from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
+from Helpers import Categories
 
 import Model.m0001_Model_Static_Methods as msm
 
@@ -56,5 +57,12 @@ class Model:
             return []
         elif 'Date' not in self.data.columns: 
             return []
-        return self.data[self.data['Date']==month][['Booking text', 'Debit CHF']].values.tolist()
-
+        # Initialize return directory
+        transactions = {}
+        for category in Categories.TRANSACTION_CATEGORIES:
+            if category not in self.data.columns:
+                continue
+            df = self.data[self.data['Date']==month][['Debit CHF', category]] # Extract df view
+            df = df[~(df[category]=="")] # Remove empty cells
+            transactions[category] = df.values.tolist()
+        return transactions
