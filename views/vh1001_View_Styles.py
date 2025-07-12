@@ -8,8 +8,13 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
+GRAPHICS_BKG_COLOR = "#D1E5F4"
+
 # ----------------------------------------------------------------
 #                              WIDGET 
+def set_bkg_color_graphic_widget_style(widget:QWidget):
+    widget.setStyleSheet(widget.styleSheet() + "; background-color: "+GRAPHICS_BKG_COLOR+";")
+
 def neutral_widget_style(widget:QWidget):
     widget.setStyleSheet("border: 0px; margin: 0px; background-color: white;")
 

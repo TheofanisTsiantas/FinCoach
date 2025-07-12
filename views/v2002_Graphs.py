@@ -18,7 +18,10 @@ class View_Graphs():
         vh.medium_margin_layout_style(global_vertical_layout)
 
         # Top graph 
-        top_graph_widget = QWidget(); vh.neutral_widget_style(top_graph_widget); vh.medium_round_widget_corners(top_graph_widget)
+        top_graph_widget = QWidget(); 
+        vh.neutral_widget_style(top_graph_widget); 
+        vh.medium_round_widget_corners(top_graph_widget)
+        vh.set_bkg_color_graphic_widget_style(top_graph_widget)
         top_graph_layout = QHBoxLayout();
 
         canvas = MplCanvas(self)
@@ -31,6 +34,9 @@ class View_Graphs():
 
         # Bottom section (graph, stats)
         bottom_horizontal_layout_frame = QFrame()
+        vh.neutral_widget_style(bottom_horizontal_layout_frame); 
+        vh.medium_round_widget_corners(bottom_horizontal_layout_frame)
+        vh.set_bkg_color_graphic_widget_style(bottom_horizontal_layout_frame)
         bottom_horizontal_layout = QHBoxLayout()
         bottom_horizontal_layout_frame.setLayout(bottom_horizontal_layout)
         global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
@@ -48,7 +54,6 @@ class View_Graphs():
             bottom_right_vertical_layout.addWidget(label)
         bottom_horizontal_layout.addWidget(bottom_right_vertical_layout_frame)
     
-#        self.setStyleSheet("border: 1px green black;")
 
 
 
