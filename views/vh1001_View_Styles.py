@@ -9,6 +9,7 @@ from PyQt5.QtWidgets import (
 )
 
 GRAPHICS_BKG_COLOR = "#D1E5F4"
+GRAPHICS_FONT_SIZE = 10
 
 # ----------------------------------------------------------------
 #                              WIDGET 

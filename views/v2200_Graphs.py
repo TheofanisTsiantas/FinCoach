@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (
     QLabel
 )
 
-from Views.vh1000_Figure_Canvas import MplCanvas
+import Views.v2210_Graphs_Factory as Graphs_Factory
 import Views.vh1001_View_Styles as vh 
 
 class View_Graphs():
@@ -24,9 +24,7 @@ class View_Graphs():
         vh.set_bkg_color_graphic_widget_style(top_graph_widget)
         top_graph_layout = QHBoxLayout();
 
-        canvas = MplCanvas(self)
-        canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3])
-
+        canvas = Graphs_Factory.View_Expense_Evolution_Graph("Expense evolution")
         top_graph_layout.addWidget(canvas)
         top_graph_widget.setLayout(top_graph_layout)
         global_vertical_layout.addWidget(top_graph_widget)
@@ -42,8 +40,7 @@ class View_Graphs():
         global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
 
         # Graph
-        canvas = MplCanvas(self)
-        canvas.axes.plot([0, 1, 2, 3], [10, 1, 20, 3], color='red')
+        canvas = Graphs_Factory.Month_Expense_Graph("Pie graph")
         bottom_horizontal_layout.addWidget(canvas)
         
         bottom_right_vertical_layout_frame = QFrame()
