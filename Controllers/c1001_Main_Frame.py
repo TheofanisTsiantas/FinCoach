@@ -1,7 +1,7 @@
 # Imports of libraries
 
 # Imports of custom modules
-from Views.v1001_Main_Frame import View_Main_Frame
+from Views.v1100_Main_Frame import View_Main_Frame
 from Model.m0000_Model import Model
 
 from Helpers.Messages import Success_Messages

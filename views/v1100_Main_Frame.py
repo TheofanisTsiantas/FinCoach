@@ -16,9 +16,9 @@ from PyQt5.QtCore import pyqtSlot
 from typing import TYPE_CHECKING
 
 #
-from Views.v2001_Months import View_Months
-from Views.v2002_Graphs import View_Graphs
-from Views.v2002_Transactions import View_Transactions
+from Views.v2100_Months import View_Months
+from Views.v2200_Graphs import View_Graphs
+from Views.v2300_Transactions import View_Transactions
 from Helpers.Messages import Warning_Messages, Error_Messages, Success_Messages
 from Views.v9000_Messagees import Error_Message_Dialog, Yes_No_Dialog, Info_Message_Dialog
 import Views.vh1001_View_Styles as vh 

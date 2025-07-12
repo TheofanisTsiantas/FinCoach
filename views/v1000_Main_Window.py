@@ -4,8 +4,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
 # Imports of custom modules
-from Views.v1001_menu import Menu
-from Views.v1001_Main_Frame import View_Main_Frame
+from Views.v1100_menu import Menu
+from Views.v1100_Main_Frame import View_Main_Frame
 
 class View_Main_Window(QMainWindow):
     def __init__(self):
