@@ -36,7 +36,7 @@ class Model:
 
     def read_replace_file(self, path:str):
         # Get a dataframe with the read data
-        df = self._read_file(path)
+        df = msm.import_data(path)
         # Locate the month to be deleted from the model
         replace_month = df['Date'][0]
         # Delete month from model
