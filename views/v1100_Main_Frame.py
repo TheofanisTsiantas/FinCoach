@@ -83,19 +83,21 @@ class View_Main_Frame(QFrame):
     @pyqtSlot()
     def _importCSV(self):
         # Open the file dialog
-        file_name, _ = QFileDialog.getOpenFileName(
+        file_names,_ = QFileDialog.getOpenFileNames(
         self,                          # parent
         "Select CSV file",             # dialog title
         "",                            # initial directory
-        "CSV Files (*.csv);;"#           ;All Files (*)" 
+        "CSV Files (*.csv);;All Files (*);" # Filters
         )
-        if file_name and self.controlObject:
+        if (self.controlObject == None):
+            return
+        for file_name in file_names:
             res = self.controlObject.read_months(file_name)
             if isinstance(res, Warning_Messages):
-                dialog = Yes_No_Dialog(res.value)
+                dialog = Yes_No_Dialog(file_name+": "+res.value)
                 answer = dialog.exec_()
                 if not answer == QDialog.Accepted:
-                    return
+                    continue
                 else:
                     self.controlObject.read_replace_file(file_name)
                     Info_Message_Dialog("File read successfully.").exec_()
@@ -104,7 +106,6 @@ class View_Main_Frame(QFrame):
                 return
             elif isinstance(res, Success_Messages):
                 Info_Message_Dialog(res.value)
-                return
             
     def update_months_view(self, months:list):
         months_layout = View_Months(months)
