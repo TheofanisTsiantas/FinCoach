@@ -66,3 +66,10 @@ class Model:
             df = df[~(df[category]=="")] # Remove empty cells
             transactions[category] = df.values.tolist()
         return transactions
+    
+    def get_expense_evolution(self):        
+        if self.data.empty:
+            return {}
+        return msm.get_expenses(self.data)
+
+        

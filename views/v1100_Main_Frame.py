@@ -60,11 +60,11 @@ class View_Main_Frame(QFrame):
         main_frame_layout.addWidget(vertical_frame,1)
 
         # --- Graphs
-        graph_widget = QWidget()
-        self.graphs_menu = View_Graphs(graph_widget)
+        self.graphs_widget = QWidget()
+        self.graphs_menu = View_Graphs(self.graphs_widget)
 #        self.graphs_menu.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
-        graph_widget.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
-        main_frame_layout.addWidget(graph_widget,4)
+        self.graphs_widget.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
+        main_frame_layout.addWidget(self.graphs_widget,4)
         #main_frame_layout.addWidget(self.graphs_menu,4)
 
         # --- Transactions
@@ -121,3 +121,6 @@ class View_Main_Frame(QFrame):
         self.scroll_area.setWidgetResizable(True)  # So content can expand inside
         transactions_frame.setLayout(transactions_layout)
         self.scroll_area.setWidget(transactions_frame)
+
+    def update_expense_evolution_graph_view(self, expense_evolution:dict):
+        self.graphs_menu.update_expense_evolution_graph(expense_evolution)

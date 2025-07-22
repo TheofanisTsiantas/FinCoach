@@ -32,3 +32,19 @@ def import_data(path:str):
     # Delete the booking text category
     df.drop(columns=['Booking text'], inplace=True)
     return df
+
+def get_expenses(data:pd):
+    # This method returns a dictionary with key=category (super market, etc.) and value a list of lists l = [l1 l2]
+    # l1: list of months, l2: sum of expenses for each month. Precondition: len(l1)==len(l2)
+    return_dictionary = {}
+    for category in Categories.TRANSACTION_CATEGORIES.keys():
+        df = data[data[category] != ""][['Date','Debit CHF']] # Get dataframe for each category, excluding zero values
+        df['Date'] = pd.to_datetime(df['Date'], format='%m-%Y', errors='coerce') # Convert date to datetime object (for sorting later))
+        df['Date'] = df['Date'].dt.strftime('%m-%Y') # Keep only month-year
+        cat_expenses_by_month = df.groupby('Date', as_index=False) # Group categories by identical dates (MM-YYYY)
+        cat_expenses_by_month = cat_expenses_by_month.sum() # Some all expenses for each date
+        cat_expenses_by_month = cat_expenses_by_month.sort_values(by='Date') # Sort by date
+        cat_expenses_by_month_list = [cat_expenses_by_month['Date'].to_list(), cat_expenses_by_month['Debit CHF'].to_list()]
+        return_dictionary[category] = cat_expenses_by_month_list
+
+    return return_dictionary

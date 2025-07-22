@@ -34,6 +34,8 @@ class Controller_Main_Frame:
         self.view_object.update_months_view(months)
         # Remove any list with transactions
         self.update_transactions_view()
+        # Update the expenses plot
+        self._update_expense_evolution_graph_view()
 
     def update_transactions_view(self, selected_month:str=''):
         if selected_month=='':
@@ -41,3 +43,7 @@ class Controller_Main_Frame:
         else:
             transactions = self.model.get_transactions(selected_month)
             self.view_object.update_transactions_view(transactions)
+
+    def _update_expense_evolution_graph_view(self):
+        expense_evolution = self.model.get_expense_evolution()
+        self.view_object.update_expense_evolution_graph_view(expense_evolution)
