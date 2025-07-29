@@ -52,11 +52,12 @@ class Model:
             return []
         return self.data['Date'].unique()
     
+    # Returns a dictionary of the transactions for a selected month
     def get_transactions(self, month:str):
         if self.data.empty:
-            return []
+            return {}
         elif 'Date' not in self.data.columns: 
-            return []
+            return {}
         # Initialize return directory
         transactions = {}
         for category in Categories.TRANSACTION_CATEGORIES:
@@ -67,6 +68,10 @@ class Model:
             transactions[category] = df.values.tolist()
         return transactions
     
+    # Returns ....
+    def get_expense_distribution(selected_month):
+        pass
+
     def get_expense_evolution(self):        
         if self.data.empty:
             return {}
