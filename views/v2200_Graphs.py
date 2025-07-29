@@ -15,18 +15,18 @@ class View_Graphs():
     def __init__(self, widget:QWidget, parent=None):
 
         # Private members:
-        # global_vertical_layout
-        # top_graph_widget
+        # __global_vertical_layout
+        # __top_graph_widget
         #
 
         # Layout - initialization
-        self.global_vertical_layout = QVBoxLayout(widget)
-        vh.medium_margin_layout_style(self.global_vertical_layout)
+        self.__global_vertical_layout = QVBoxLayout(widget)
+        vh.medium_margin_layout_style(self.__global_vertical_layout)
 
         # Top graph - initialization
-        self.top_graph_widget = QWidget()
+        self.__top_graph_widget = QWidget()
         self._create_top_graph()
-        #self.global_vertical_layout.addWidget(self._create_top_graph())
+        #self.__global_vertical_layout.addWidget(self._create_top_graph())
 
 
         # Bottom section (graph, stats)
@@ -36,7 +36,7 @@ class View_Graphs():
         vh.set_bkg_color_graphic_widget_style(bottom_horizontal_layout_frame)
         bottom_horizontal_layout = QHBoxLayout()
         bottom_horizontal_layout_frame.setLayout(bottom_horizontal_layout)
-        self.global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
+        self.__global_vertical_layout.addWidget(bottom_horizontal_layout_frame)
 
         # Graph
         canvas = Graphs_Factory.Month_Expense_Graph("Pie graph")
@@ -64,11 +64,11 @@ class View_Graphs():
         top_graph_layout.addWidget(canvas)
         wnew.setLayout(top_graph_layout)
         # Delete existing graph
-        self.top_graph_widget.setParent(None)
+        self.__top_graph_widget.setParent(None)
         # Insert the new graph at the top (idx=0)
-        self.global_vertical_layout.insertWidget(0, wnew)
+        self.__global_vertical_layout.insertWidget(0, wnew)
         # Set the new graph as member of the class (for accessibility)
-        self.top_graph_widget = wnew
+        self.__top_graph_widget = wnew
 
     def update_expense_evolution_graph(self, expense_evolution:dict={}):
         self._create_top_graph(expense_evolution)
