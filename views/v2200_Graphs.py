@@ -14,7 +14,7 @@ import Views.vh1001_View_Styles as vh
 class View_Graphs():
     def __init__(self, widget:QWidget, parent=None):
 
-        # Members:
+        # Private members:
         # global_vertical_layout
         # top_graph_widget
         #
