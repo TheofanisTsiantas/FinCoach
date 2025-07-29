@@ -52,17 +52,22 @@ class View_Graphs():
     
 
     def _create_top_graph(self, expense_evolution:dict={} ):
+        # Create the new widget for the updated graph
         wnew = QWidget(); 
-        self.global_vertical_layout.addWidget(wnew)
         vh.neutral_widget_style(wnew); 
         vh.medium_round_widget_corners(wnew)
         vh.set_bkg_color_graphic_widget_style(wnew)
+        # Create a layout
         top_graph_layout = QHBoxLayout();
-
+        # Create the graph and add it to the widget
         canvas = Graphs_Factory.View_Expense_Evolution_Graph("Expense evolution",expense_evolution)
         top_graph_layout.addWidget(canvas)
         wnew.setLayout(top_graph_layout)
-        self.global_vertical_layout.replaceWidget(self.top_graph_widget, wnew)
+        # Delete existing graph
+        self.top_graph_widget.setParent(None)
+        # Insert the new graph at the top (idx=0)
+        self.global_vertical_layout.insertWidget(0, wnew)
+        # Set the new graph as member of the class (for accessibility)
         self.top_graph_widget = wnew
 
     def update_expense_evolution_graph(self, expense_evolution:dict={}):
