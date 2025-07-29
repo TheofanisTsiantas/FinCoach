@@ -16,14 +16,20 @@ class Controller_Main_Frame:
         res = self.model.read_file(path)
         # In case of successful read update the view
         if isinstance(res, Success_Messages):
+            # Update the view of the months
             self._update_months_view()
+            # Update the expenses plot
+            self._update_expense_evolution_graph_view()            
         return res
     
     def read_replace_file(self, path : str):
         # In case of successful read update the view
         res = self.model.read_replace_file(path)
         if isinstance(res, Success_Messages):
+            # Update the view of the months
             self._update_months_view()
+            # Update the expenses plot
+            self._update_expense_evolution_graph_view()
         return res
     
     def _update_months_view(self):
@@ -34,8 +40,6 @@ class Controller_Main_Frame:
         self.view_object.update_months_view(months)
         # Remove any list with transactions
         self.update_transactions_view()
-        # Update the expenses plot
-        self._update_expense_evolution_graph_view()
 
     def update_transactions_view(self, selected_month:str=''):
         if selected_month=='':
