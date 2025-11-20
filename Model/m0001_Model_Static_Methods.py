@@ -44,7 +44,7 @@ def get_expenses(data:pd):
         cat_expenses_by_month = df.groupby('Date', as_index=False) # Group categories by identical dates (MM-YYYY)
         cat_expenses_by_month = cat_expenses_by_month.sum() # Some all expenses for each date
         cat_expenses_by_month = cat_expenses_by_month.sort_values(by='Date') # Sort by date
-        cat_expenses_by_month_list = [cat_expenses_by_month['Date'].to_list(), cat_expenses_by_month['Debit CHF'].to_list()]
+        cat_expenses_by_month_list = [cat_expenses_by_month['Date'].tolist(), cat_expenses_by_month['Debit CHF'].tolist()]
         return_dictionary[category] = cat_expenses_by_month_list
 
     return return_dictionary
