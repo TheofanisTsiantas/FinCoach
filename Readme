@@ -1,3 +1,5 @@
+# First ensure that local environment python is used!
+python3 -c "import sys; print(sys.executable)"
 
 ########################################################################
 ------------------------- PROJECT DEPENDENCIES -------------------------
