@@ -41,6 +41,7 @@ class Controller_Main_Frame:
         # Remove any list with transactions
         self.update_transactions_view()
 
+    # Update the view of the transactions for a selected month
     def update_transactions_view(self, selected_month:str=''):
         if selected_month=='':
             self.view_object.update_transactions_view({})
@@ -48,6 +49,16 @@ class Controller_Main_Frame:
             transactions = self.model.get_transactions(selected_month)
             self.view_object.update_transactions_view(transactions)
 
+    # Update the pie chart of the expense distribution per month
+    def update_expense_distribution_graph_view(self, selected_month:str=''):
+        if selected_month=='':
+            self.view_object.update_expense_distribution_graph_view({})
+        else:
+            expense_distribution, total_monthly_cost = self.model.get_expense_distribution(selected_month)
+            plot_title = selected_month+"(total: "+str(total_monthly_cost)+" CFH)";
+            self.view_object.update_expense_distribution_graph_view(expense_distribution, plot_title)
+
+    # Update the scatter chart of the transaction distribution through time
     def _update_expense_evolution_graph_view(self):
         expense_evolution = self.model.get_expense_evolution()
         self.view_object.update_expense_evolution_graph_view(expense_evolution)

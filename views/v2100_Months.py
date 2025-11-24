@@ -43,6 +43,8 @@ class View_Months(QVBoxLayout):
             label.setStyleSheet("background-color: white; color: black; border: 0px; margin: 5px")
         # Inform the cotroller that transactions must be updated according to selected "month"
         self.controlObject.update_transactions_view(month)
+        # Inform the cotroller that pie view must be updated according to selected "month"
+        self.controlObject.update_expense_distribution_graph_view(month)
 
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()

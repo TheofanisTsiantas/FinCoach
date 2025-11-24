@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 from Helpers import Categories
@@ -53,6 +54,7 @@ class Model:
         return self.data['Date'].unique()
     
     # Returns a dictionary of the transactions for a selected month
+    # Dict (each value is a list of lists): { CATEGORY : [  [cost, description]  ,  [cost, description]  ] }
     def get_transactions(self, month:str):
         if self.data.empty:
             return {}
@@ -68,10 +70,23 @@ class Model:
             transactions[category] = df.values.tolist()
         return transactions
     
-    # Returns ....
-    def get_expense_distribution(selected_month):
-        pass
-
+    # Returns the cost distribution (percentage) of each category in the total expenses of the month
+    def get_expense_distribution(self, selected_month):
+        cost_distribution = {}
+        month_transactions = self.get_transactions(selected_month)
+        total_monthly_cost = 0
+        for cat, transactions in month_transactions.items():
+            total_category_costs = 0
+            for category_cost in transactions:
+                total_category_costs += category_cost[0]
+            total_monthly_cost += total_category_costs
+            cost_distribution[cat] = total_category_costs
+        for cat in month_transactions.keys():
+            cost_distribution[cat] = round(cost_distribution[cat]/total_monthly_cost*100,1)
+        if sum(cost_distribution.values())-100>0.1 or sum(cost_distribution.values())<100:
+            return {},0
+        return cost_distribution, math.ceil(total_monthly_cost)
+    
     def get_expense_evolution(self):        
         if self.data.empty:
             return {}

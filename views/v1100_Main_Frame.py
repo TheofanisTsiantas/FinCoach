@@ -62,10 +62,8 @@ class View_Main_Frame(QFrame):
         # --- Graphs
         self.graphs_widget = QWidget()
         self.graphs_menu = View_Graphs(self.graphs_widget)
-#        self.graphs_menu.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
         self.graphs_widget.setStyleSheet("margin: 0px; border: solid brown 2px; background-color: yellow;")
         main_frame_layout.addWidget(self.graphs_widget,4)
-        #main_frame_layout.addWidget(self.graphs_menu,4)
 
         # --- Transactions
         self.scroll_area = QScrollArea()
@@ -106,7 +104,8 @@ class View_Main_Frame(QFrame):
                 return
             elif isinstance(res, Success_Messages):
                 Info_Message_Dialog(res.value)
-            
+                
+    # Update the view of the list of months which have been read
     def update_months_view(self, months:list):
         months_layout = View_Months(months)
         months_layout.controlObject = self.controlObject # Passing the controller for signals
@@ -115,6 +114,8 @@ class View_Main_Frame(QFrame):
         # Assign the new Layout
         self.months_frame.setLayout(months_layout)
 
+    # Update the view of the transactions for a selected month
+    # transactions:dict --> { CATEGORY : [  [cost, description]  ,  [cost, description]  ] }
     def update_transactions_view(self, transactions:dict):
         transactions_layout = View_Transactions(transactions)
         transactions_frame = QWidget()
@@ -123,5 +124,11 @@ class View_Main_Frame(QFrame):
         transactions_frame.setLayout(transactions_layout)
         self.scroll_area.setWidget(transactions_frame)
 
+    # Update the pie chart of the expense distribution per month
+    # expense_distribution:dict --> { CATEGORY : XX% of monthly cost }
+    def update_expense_distribution_graph_view(self, expense_distribution:dict, plot_title:str):
+        self.graphs_menu.update_expense_distribution_graph(expense_distribution, plot_title)
+
+    # Update the scatter chart of the transaction distribution through time
     def update_expense_evolution_graph_view(self, expense_evolution:dict):
         self.graphs_menu.update_expense_evolution_graph(expense_evolution)
