@@ -83,7 +83,7 @@ class Model:
             cost_distribution[cat] = total_category_costs
         for cat in month_transactions.keys():
             cost_distribution[cat] = round(cost_distribution[cat]/total_monthly_cost*100,1)
-        if sum(cost_distribution.values())-100>0.1 or sum(cost_distribution.values())<100:
+        if sum(cost_distribution.values())-100>0.5 or sum(cost_distribution.values())<99.5:
             return {},0
         return cost_distribution, math.ceil(total_monthly_cost)
     
