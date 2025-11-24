@@ -40,7 +40,7 @@ def View_Expense_Evolution_Graph(title:str, transactions:dict ={}):
         canvas.axes.set_ylabel("Expenses [kCHF]", fontsize=GRAPHICS_FONT_SIZE)
         canvas.axes.set_title(title, fontsize=GRAPHICS_FONT_SIZE)
         canvas.axes.grid(True)
-        canvas.axes.set_yticks(np.arange(0.0, max_exp, 0.25))        
+        canvas.axes.set_yticks(np.arange(0.0, max_exp, 0.5))        
         leg = canvas.axes.legend(ncol=1,
                              loc='upper left',            # anchor point on the legend
                              bbox_to_anchor=(-0.5, 1.),  # position in axes coordinates
