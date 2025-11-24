@@ -15,6 +15,9 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import pyqtSlot
 from typing import TYPE_CHECKING
 
+import csv 
+from pathlib import Path
+
 #
 from Views.v2100_Months import View_Months
 from Views.v2200_Graphs import View_Graphs
@@ -35,18 +38,27 @@ class View_Main_Frame(QFrame):
         self.controlObject : Controller_Main_Frame = None
 
         self.setFrameShape(QFrame.Box)
-
         main_frame_layout = QHBoxLayout()
-
         self.setLayout(main_frame_layout)
 
-        # --- Months
         vertical_frame = QWidget(self)
         vertical_layout = QVBoxLayout(vertical_frame)
+
+        # --- Data import/save
+        data_import = QPushButton("Import data")
+        vh.import_button_style(data_import)
+        data_import.clicked.connect(self._importData)
+        vertical_layout.addWidget(data_import)
+        data_save = QPushButton("Save data")
+        vh.save_button_style(data_save)
+        vertical_layout.addWidget(data_save)
+        data_save.clicked.connect(self._saveData)
+
+        # --- Months
         # Import button
-        month_import = QPushButton("Import .csv")
+        month_import = QPushButton("Import month")
         vh.import_button_style(month_import)
-        month_import.clicked.connect(self._importCSV)
+        month_import.clicked.connect(self._importMonth)
         vertical_layout.addWidget(month_import)
         # View of months
         self.months_frame = QWidget()
@@ -79,7 +91,7 @@ class View_Main_Frame(QFrame):
         vh.small_margin_layout_style(main_frame_layout)
 
     @pyqtSlot()
-    def _importCSV(self):
+    def _importMonth(self):
         # Open the file dialog
         file_names,_ = QFileDialog.getOpenFileNames(
         self,                          # parent
@@ -100,11 +112,46 @@ class View_Main_Frame(QFrame):
                     self.controlObject.read_replace_file(file_name)
                     Info_Message_Dialog("File read successfully.").exec_()
             elif isinstance(res, Error_Messages):
-                Error_Message_Dialog(res.value)
+                Error_Message_Dialog(res.value).exec_()
                 return
             elif isinstance(res, Success_Messages):
-                Info_Message_Dialog(res.value)
-                
+                Info_Message_Dialog(res.value).exec_()
+
+    @pyqtSlot()
+    def _importData(self):
+        pass
+    
+    @pyqtSlot()
+    def _saveData(self):
+        # Open the file dialog
+        file_name = QFileDialog.getSaveFileName(
+        self,                          # parent
+        "Save data as csv",             # dialog title
+        "",                            # initial directory
+        "CSV Files (*.csv);" # Filters
+        )
+        if (self.controlObject == None):
+            return
+        res = self.controlObject.get_Data_Dict()
+        if not res:
+            Error_Message_Dialog(Error_Messages.EMPTY_SAVE_DATA.value).exec_()
+            return
+        _filename = file_name[0]+".csv"
+
+        if Path(_filename).exists():
+            dialog = Yes_No_Dialog(Warning_Messages.FILE_SAVE_EXISTS.value)
+            answer = dialog.exec_()
+            if not answer == QDialog.Accepted:
+                return
+            else:
+                Path(_filename).unlink() # Deletes file
+        with open(_filename, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["key", "value"])   # optional header
+            for k, v in res.items():
+                writer.writerow([k, v])
+        Info_Message_Dialog(Success_Messages.FILE_SAVE.value).exec()
+
     # Update the view of the list of months which have been read
     def update_months_view(self, months:list):
         months_layout = View_Months(months)

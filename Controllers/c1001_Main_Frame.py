@@ -32,6 +32,9 @@ class Controller_Main_Frame:
             self._update_expense_evolution_graph_view()
         return res
     
+    def get_Data_Dict(self):
+        return self.model.get_Data_Dict()
+
     def _update_months_view(self):
         # Get current months from model
         months = self.model.get_months()

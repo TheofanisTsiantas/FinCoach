@@ -25,4 +25,4 @@ class View_Main_Window(QMainWindow):
         geomerty = screen.geometry()
         width = geomerty.width()
         height = geomerty.height()
-        self.resize(int(width/1.2), height//2)
+        self.resize(int(width/1.2), int(height/1.5))

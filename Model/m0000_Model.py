@@ -1,5 +1,6 @@
 import pandas as pd
 import math
+import io
 
 from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 from Helpers import Categories
@@ -22,14 +23,14 @@ class Model:
             if len(month_year)>1:
                 return Error_Messages.INVALID_FORMAT
             elif not month_year:
-                return Error_Messages.EMPTY_DATA
+                return Error_Messages.EMPTY_IMPORT_DATA
         # Check for value read exceptions
         except Exception as e:
             Error_Messages.EXCEPTION += e
             return Error_Messages.EXCEPTION
         # Warn in case of existing file
         if month_year[0] in self.get_months():
-            return Warning_Messages.FILE_EXISTS
+            return Warning_Messages.FILE_IMPORT_EXISTS
         # Read file and append existing model
         df = msm.import_data(path)
         self.data = pd.concat([self.data, df], ignore_index=True)
@@ -93,4 +94,5 @@ class Model:
             return {}
         return msm.get_expenses(self.data)
 
-        
+    def get_Data_Dict(self):
+        return self.data.to_dict();

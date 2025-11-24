@@ -55,3 +55,6 @@ def add_label_left_padding_style(label:QLabel):
 #                            BUTTON 
 def import_button_style(button:QPushButton):
     button.setStyleSheet("background-color: #e8d8ac; border-radius: 8px;padding:5px; border: 1px solid grey;")
+
+def save_button_style(button:QPushButton):
+    button.setStyleSheet("background-color: #ADD8E6; border-radius: 8px;padding:5px; border: 1px solid grey;")
