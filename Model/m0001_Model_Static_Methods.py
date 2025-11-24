@@ -7,7 +7,7 @@ def import_data(path:str):
     # Read the month with the replacement data
     df = pd.read_csv(path, sep=";")
     # Remove unecessary data
-    df.drop(columns=['ZKB reference', 'Reference number', 'Credit CHF', 'Balance CHF'], inplace=True)
+    df = df[['Date', 'Booking text', 'Debit CHF', 'Value date']]
     # Remove invalid data
     df.dropna(inplace=True)
     # Transform date to appropriate format
