@@ -51,7 +51,8 @@ class Model:
             return []
         elif 'Date' not in self.data.columns: 
             return []
-        return self.data['Date'].unique()
+        self.data.to_csv('myData.csv', index=False);
+        return self.data['Date'].unique()  
     
     # Returns a dictionary of the transactions for a selected month
     # Dict (each value is a list of lists): { CATEGORY : [  [cost, description]  ,  [cost, description]  ] }

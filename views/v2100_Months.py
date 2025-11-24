@@ -1,5 +1,6 @@
 # The view of the months list
 
+from datetime import datetime
 from PyQt5.QtWidgets import (
     QVBoxLayout,
     QLabel
@@ -26,7 +27,10 @@ class View_Months(QVBoxLayout):
             label.setStyleSheet("border: 0px; margin: 5px")
             self.addWidget(label)
         else:
-            for month in months:
+            month_dt = [datetime.strptime(month, "%m-%Y") for month in months]
+            sorted_month_dt = sorted(month_dt); #.dt.month.astype(str) + "-" + df['Date'].dt.year.astype(str)
+            sorted_months = [str(dt.month)+"-"+str(dt.year) for dt in sorted_month_dt]
+            for month in sorted_months:
                 label = ClickableLabel(month)
                 label.setEnabled(True)
                 label.setStyleSheet("border: 0px; margin: 5px")
