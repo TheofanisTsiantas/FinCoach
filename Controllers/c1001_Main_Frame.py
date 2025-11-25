@@ -99,7 +99,7 @@ class Controller_Main_Frame:
             self.view_object.update_expense_distribution_graph_view({}, "")
         else:
             expense_distribution, total_monthly_cost = self.model.get_expense_distribution(self.selected_month)
-            plot_title = self.selected_month+"(total: "+str(total_monthly_cost)+" CFH)";
+            plot_title = self.selected_month+" (total: "+format(total_monthly_cost, ",").replace(",", "'")+" CFH)";
             self.view_object.update_expense_distribution_graph_view(expense_distribution, plot_title)
 
     # Update the scatter chart of the transaction distribution through time
