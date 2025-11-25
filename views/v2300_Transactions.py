@@ -12,6 +12,7 @@ import Views.vh1001_View_Styles as vh
 from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 from typing import Callable, Optional
 from functools import partial
+from Views.v9000_Messagees import Error_Message_Dialog, Yes_No_Dialog, Info_Message_Dialog
 
 class View_Transactions(QGridLayout):
     def __init__(self, transactions:dict ={} , callback : Optional[Callable] = None,  parent=None):
@@ -71,7 +72,7 @@ class ClickableLabel(QLabel):
     def _label_clicked(self, method: Optional[Callable] = None, index:int=-1, name:str = "", value:float= 0, category:str=""):
         res = method(index, name, value, category);
         if isinstance(res, Error_Messages):
-            t =1
+            Error_Message_Dialog(res.value).exec_()
     
     def mousePressEvent(self, event):
         # Remove transaction
