@@ -5,6 +5,7 @@ class Error_Messages(Enum):
     MULTI_DATA = "The provided file contains data for more than one month."
     EMPTY_IMPORT_DATA = "The provided file contains no data."
     EMPTY_SAVE_DATA = "There is no data to be saved. Action aborted."
+    TRANS_DEL_FAILED = "Ooops. Something went wrong. This transaction could not be deleted. Please report this issue."
 
 class Warning_Messages(Enum):
     FILE_IMPORT_EXISTS = "The specified file has been read already. Do you want to replace the data?"
@@ -15,3 +16,4 @@ class Success_Messages(Enum):
     FILE_READ = "File successfully read."
     DATA_READ = "Data successfully read."
     FILE_SAVE = "File saved successfully."
+    TRANS_DELETED = "Transaction deleted successfully."
