@@ -8,19 +8,19 @@ from PyQt5.QtWidgets import (
 
 from PyQt5.QtCore import pyqtSignal
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Callable, Optional
+from functools import partial
 
 if TYPE_CHECKING:
     from Controllers.c1001_Main_Frame import Controller_Main_Frame
 
 class View_Months(QVBoxLayout):
-    def __init__(self, months:list =[] , parent=None):
+    def __init__(self, months:list =[] , callback:Optional[Callable]=None,  parent=None):
         super().__init__(parent)
 
         self.setSpacing(3)
         self.setContentsMargins(5, 5, 5, 5)
         self.labels: list[QLabel] = []
-        self.controlObject : Controller_Main_Frame = None
 
         if months is None or len(months)==0:
             label = QLabel("No months read")
@@ -36,17 +36,17 @@ class View_Months(QVBoxLayout):
                 label.setStyleSheet("border: 0px; margin: 5px")
                 self.addWidget(label)
                 self.labels.append(label)
-                label.clicked.connect(lambda text=label.text(): self._label_clicked(text))
+                label.clicked.connect(partial(self._label_clicked, label.text(), callback))
 
         self.addStretch()
 
     # Private method to handle the view logic
-    def _label_clicked(self, month:str):
+    def _label_clicked(self, month:str, callback:Optional[Callable]=None ):
         # Remove any existing background (from previous selections)
         for label in self.labels:
             label.setStyleSheet("background-color: white; color: black; border: 0px; margin: 5px")
-        # Inform controller that a new month was selected
-        self.controlObject.new_month_selected(month)
+        # Call parent view - month has been selected
+        callback(month)
 
 class ClickableLabel(QLabel):
     clicked = pyqtSignal()

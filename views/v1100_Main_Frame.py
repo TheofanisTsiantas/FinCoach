@@ -67,7 +67,6 @@ class View_Main_Frame(QFrame):
         vh.small_round_widget_corners(self.months_frame)
         #self.months_frame.setStyleSheet("background-color:white; border: 1px solid green;")
         months_layout = View_Months([])
-        months_layout.controlObject = self.controlObject # Passing the controller for signals
         self.months_frame.setLayout(months_layout)
         vertical_layout.addWidget(self.months_frame,1)
         main_frame_layout.addWidget(vertical_frame,1)
@@ -179,8 +178,7 @@ class View_Main_Frame(QFrame):
 
     # Update the view of the list of months which have been read
     def update_months_view(self, months:list):
-        months_layout = View_Months(months)
-        months_layout.controlObject = self.controlObject # Passing the controller for signals
+        months_layout = View_Months(months, self.select_month)
         # Remove old layout (by setting the parent to a temp object)
         QWidget().setLayout(self.months_frame.layout())
         # Assign the new Layout
@@ -205,10 +203,13 @@ class View_Main_Frame(QFrame):
     def update_expense_evolution_graph_view(self, expense_evolution:dict):
         self.graphs_menu.update_expense_evolution_graph(expense_evolution)
 
+    # Called by the view when a delete-transaction signal has been emmited. Notifies the controller. 
     def transaction_deleted(self, transaction_id:int=-1, transaction_name:str="", transaction_value:float=0.0, transaction_category:str=""):
         # Check input 
         if transaction_id==-1 or transaction_name=="" or transaction_category=="":
             return Error_Messages.TRANS_DEL_FAILED
         self.controlObject.delete_transaction(transaction_id, transaction_name, transaction_value, transaction_category)
         
-        
+    # Called by the view when a select-month signal has been emmited. Notifies the controller.
+    def select_month(self, month:str):
+        self.controlObject.new_month_selected(month);
