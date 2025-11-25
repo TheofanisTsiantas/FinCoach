@@ -37,8 +37,19 @@ def get_expenses(data:pd):
     # This method returns a dictionary with key=category (super market, etc.) and value a list of lists l = [l1 l2]
     # l1: list of months, l2: sum of expenses for each month. Precondition: len(l1)==len(l2)
     return_dictionary = {}
+    data_months = list(data["Date"].unique()); # All categories should have data for all months at the end
     for category in Categories.TRANSACTION_CATEGORIES.keys():
-        df = data[data[category] != ""][['Date','Debit CHF']] # Get dataframe for each category, excluding zero values
+        
+        # Get dataframe for each category, excluding zero values
+        df = data[data[category] != ""][['Date','Debit CHF']] 
+        
+        # In case no transactions of "category" exist for some month(s), the corresponding month will be missing from df. It has to be added
+        df_months = list(df["Date"].unique());
+        if len(df_months)!=len(data_months):
+            for m in data_months:
+                if m not in df_months:
+                    df = pd.concat([df, pd.DataFrame([{"Date": m, "Debit CHF": 0.0}])], ignore_index=True)
+
         df['Date'] = pd.to_datetime(df['Date'], format='%m-%Y', errors='coerce') # Convert date to datetime object (for sorting later))
         df['Date'] = df['Date'].dt.strftime('%m-%Y') # Keep only month-year
         cat_expenses_by_month = df.groupby('Date', as_index=False) # Group categories by identical dates (MM-YYYY)
