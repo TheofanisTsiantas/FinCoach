@@ -4,7 +4,7 @@
 from Views.v1100_Main_Frame import View_Main_Frame
 from Model.m0000_Model import Model
 
-from Helpers.Messages import Success_Messages
+from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 
 
 class Controller_Main_Frame:
@@ -51,6 +51,21 @@ class Controller_Main_Frame:
     # Get data as a dictionary
     def get_Data_Dict(self):
         return self.model.get_Data_Dict()
+
+    def delete_transaction(self, transaction_id:int, transaction_name:str, transaction_value:float, transaction_category:str):
+        if self.selected_month == "":
+            return Error_Messages.TRANS_DEL_FAILED;
+        res = self.model.delete_transaction(self.selected_month, transaction_id, transaction_name, transaction_value, transaction_category)
+        if isinstance(res, Error_Messages):
+            return res;
+        # Update the view of the months
+        self._update_months_view()
+        # Update the expense evolution plot
+        self._update_expense_evolution_graph_view()
+        # Set transactions to empty list
+        self._update_transactions_view()
+        # Set pie chart to empty
+        self._update_expense_distribution_graph_view()
 
     # Controller fetches appropriate data of newly selected month to update correspoding view graphs 
     def new_month_selected(self, selected_month=""):

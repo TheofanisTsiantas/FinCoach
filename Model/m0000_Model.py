@@ -95,10 +95,28 @@ class Model:
             return {}
         return msm.get_expenses(self.data)
 
+    # Simply returns the data in neutral form
     def get_Data_Dict(self):
         return self.data.to_dict(orient="list");
 
+    # Overwrites all data using the json file passed over
     def overwrite_dataframe(self, path):
         with open(path) as f:
             data = json.load(f)
             self.data = pd.DataFrame(data)        
+
+    # Looks in the model for the specific transaction on a specific month. If it finds it it removes it, else returns error code
+    def delete_transaction(self, month:str, transaction_id:int, transaction_name:str, transaction_value:float, transaction_category:str):
+        # Create the df view that corresponds to the month and category
+        filtered_df = self.data[self.data['Date'] == month][[transaction_category, "Debit CHF"]];
+        filtered_df = filtered_df[~(filtered_df[transaction_category]=="")] # Remove empty cells
+        # Get the transaction
+        model_transaction = filtered_df.iloc[transaction_id];
+        # Check value and description match
+        if model_transaction["Debit CHF"] != transaction_value or model_transaction[transaction_category] != transaction_name:
+            return Error_Messages.TRANS_DEL_FAILED;
+        # Get position of transaction in original dataframe
+        original_idx = filtered_df.iloc[transaction_id].name
+        # Remove transaction from original df
+        self.data = self.data.drop(original_idx);
+        return Success_Messages.TRANS_DELETED;

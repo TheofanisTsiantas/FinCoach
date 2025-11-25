@@ -9,6 +9,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 
 import Views.vh1001_View_Styles as vh 
+from Helpers.Messages import Error_Messages, Warning_Messages, Success_Messages
 from typing import Callable, Optional
 from functools import partial
 
@@ -47,8 +48,8 @@ class View_Transactions(QGridLayout):
             vh.add_label_left_padding_style(label_cost)
             self.addWidget(label_cost,rowpos[0], 1)
             self.addWidget(label_transaction,rowpos[0], 2)
-            # Button for transaction removal: text, index, name, value
-            self.addWidget(ClickableLabel(" - ", i, transaction[1], transaction[0], callback),rowpos[0], 0)
+            # Button for transaction removal: text, index, name, value, category
+            self.addWidget(ClickableLabel(" - ", i, transaction[1], transaction[0], category, callback),rowpos[0], 0)
             rowpos[0] += 1
         self.addWidget(QLabel(),rowpos[0], 0)
         rowpos[0] += 1
@@ -59,22 +60,22 @@ class ClickableLabel(QLabel):
 
     clicked = pyqtSignal()
 
-    def __init__(self, text:str ="" , index:int=-1, name:str = "", value:float= 0, method: Optional[Callable] = None, parent=None):
+    def __init__(self, text:str ="" , index:int=-1, name:str = "", value:float= 0, category:str="", method: Optional[Callable] = None, parent=None):
         super().__init__(parent)
         self.setEnabled(True)
         self.setText(text)
         self.setStyleSheet("background-color: rgb(250, 50, 50); border: 0px;  color: white; margin: 5px; border-radius:5px; ")
         self.setAlignment(Qt.AlignCenter) # Align text horizontally and vertically
-        self.clicked.connect(partial(self._label_clicked, method, index, name, value))
+        self.clicked.connect(partial(self._label_clicked, method, index, name, value, category))
     
-    def _label_clicked(self, method: Optional[Callable] = None, index:int=-1, name:str = "", value:float= 0):
-        method(index, name, value);
+    def _label_clicked(self, method: Optional[Callable] = None, index:int=-1, name:str = "", value:float= 0, category:str=""):
+        res = method(index, name, value, category);
+        if isinstance(res, Error_Messages):
+            t =1
     
     def mousePressEvent(self, event):
         # Remove transaction
         self.clicked.emit()
-        # Default functionality fallback
-        super().mousePressEvent(event)
 
 
 

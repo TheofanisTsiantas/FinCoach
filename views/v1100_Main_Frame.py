@@ -205,10 +205,10 @@ class View_Main_Frame(QFrame):
     def update_expense_evolution_graph_view(self, expense_evolution:dict):
         self.graphs_menu.update_expense_evolution_graph(expense_evolution)
 
-    def transaction_deleted(self, transaction_id:int=-1, transaction_name:str="", transaction_value:float=0.0):
+    def transaction_deleted(self, transaction_id:int=-1, transaction_name:str="", transaction_value:float=0.0, transaction_category:str=""):
         # Check input 
-        if transaction_id==-1 or transaction_name=="":
-            # Error message!
-            return
+        if transaction_id==-1 or transaction_name=="" or transaction_category=="":
+            return Error_Messages.TRANS_DEL_FAILED
+        self.controlObject.delete_transaction(transaction_id, transaction_name, transaction_value, transaction_category)
         
         
