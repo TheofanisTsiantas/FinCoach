@@ -16,6 +16,7 @@ from PyQt5.QtCore import pyqtSlot
 from typing import TYPE_CHECKING
 
 import csv 
+import json
 from pathlib import Path
 
 #
@@ -97,7 +98,8 @@ class View_Main_Frame(QFrame):
         self,                          # parent
         "Select CSV file",             # dialog title
         "",                            # initial directory
-        "CSV Files (*.csv);;All Files (*);" # Filters
+        "CSV Files (*.csv)",           # ;All Files (*);" --> Filters
+        "CSV Files (*.csv)"            # Present active filter
         )
         if (self.controlObject == None):
             return
@@ -119,24 +121,50 @@ class View_Main_Frame(QFrame):
 
     @pyqtSlot()
     def _importData(self):
-        pass
+        # Open the file dialog
+        file_name = QFileDialog.getOpenFileName(
+        self,                      # parent
+        "Select JSON file",        # dialog title
+        "",                        # initial directory
+        "JSON Files (*.json)",     # Available filters
+        "JSON Files (*.json)"      # Present active filter
+        )
+        if file_name[0]=='':
+            return
+        if (self.controlObject == None):
+            return
+        res = self.controlObject.get_Data_Dict()
+        if res:
+            dialog = Yes_No_Dialog(Warning_Messages.DATA_EXISTS.value)
+            answer = dialog.exec_()
+            if not answer == QDialog.Accepted:
+                return
+        res = self.controlObject.overwrite_dataframe(file_name[0])
+        if isinstance(res, Error_Messages):
+            Error_Message_Dialog(res.value).exec_()
+            return
+        elif isinstance(res, Success_Messages):
+            Info_Message_Dialog(res.value).exec_()
     
     @pyqtSlot()
     def _saveData(self):
         # Open the file dialog
         file_name = QFileDialog.getSaveFileName(
-        self,                          # parent
-        "Save data as csv",             # dialog title
-        "",                            # initial directory
-        "CSV Files (*.csv);" # Filters
+        self,                        # parent
+        "Save data as json",         # dialog title
+        "",                          # initial directory
+        "JSON Files (*.json);",      # Available filters
+        "JSON Files (*.json)"        # Present active filter 
         )
+        if file_name[0]=='':
+            return
         if (self.controlObject == None):
             return
         res = self.controlObject.get_Data_Dict()
         if not res:
             Error_Message_Dialog(Error_Messages.EMPTY_SAVE_DATA.value).exec_()
             return
-        _filename = file_name[0]+".csv"
+        _filename = file_name[0]+".json"
 
         if Path(_filename).exists():
             dialog = Yes_No_Dialog(Warning_Messages.FILE_SAVE_EXISTS.value)
@@ -145,11 +173,8 @@ class View_Main_Frame(QFrame):
                 return
             else:
                 Path(_filename).unlink() # Deletes file
-        with open(_filename, "w", newline="") as f:
-            writer = csv.writer(f)
-            writer.writerow(["key", "value"])   # optional header
-            for k, v in res.items():
-                writer.writerow([k, v])
+        with open(_filename, "w") as f:
+            json.dump(res, f)
         Info_Message_Dialog(Success_Messages.FILE_SAVE.value).exec()
 
     # Update the view of the list of months which have been read

@@ -9,7 +9,9 @@ class Error_Messages(Enum):
 class Warning_Messages(Enum):
     FILE_IMPORT_EXISTS = "The specified file has been read already. Do you want to replace the data?"
     FILE_SAVE_EXISTS = "The specified file already contains data. Do you want to replace it?"
+    DATA_EXISTS = "All existing data will be overwritten. Do you want to continue?"
 
 class Success_Messages(Enum):
     FILE_READ = "File successfully read."
+    DATA_READ = "Data successfully read."
     FILE_SAVE = "File saved successfully."

@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 import math
 import io
 
@@ -95,4 +96,9 @@ class Model:
         return msm.get_expenses(self.data)
 
     def get_Data_Dict(self):
-        return self.data.to_dict();
+        return self.data.to_dict(orient="list");
+
+    def overwrite_dataframe(self, path):
+        with open(path) as f:
+            data = json.load(f)
+            self.data = pd.DataFrame(data)        
