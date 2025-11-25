@@ -9,9 +9,11 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtCore import pyqtSignal
 
 import Views.vh1001_View_Styles as vh 
+from typing import Callable, Optional
+from functools import partial
 
 class View_Transactions(QGridLayout):
-    def __init__(self, transactions:dict ={} , parent=None):
+    def __init__(self, transactions:dict ={} , callback : Optional[Callable] = None,  parent=None):
         super().__init__(parent)
         vh.neutral_layout_style(self)
 
@@ -22,10 +24,10 @@ class View_Transactions(QGridLayout):
         else:
             rowpos = [0] # To enable pass by reference
             for category, transaction_items in transactions.items():
-                self._create_transactions(category, transaction_items, rowpos)
+                self._create_transactions(category, transaction_items, rowpos, callback)
 
     # For each category it a grid group with th title, the sum and all transactions
-    def _create_transactions(self, category:str, transactions:list, rowpos):
+    def _create_transactions(self, category:str, transactions:list, rowpos, callback : Optional[Callable] = None):
         # If the sum of transactions is zero, omit the category
         sum_of_transactions = round(sum(x[0] for x in transactions),1)
         if sum_of_transactions == 0:
@@ -45,7 +47,8 @@ class View_Transactions(QGridLayout):
             vh.add_label_left_padding_style(label_cost)
             self.addWidget(label_cost,rowpos[0], 1)
             self.addWidget(label_transaction,rowpos[0], 2)
-            self.addWidget(ClickableLabel(" - "),rowpos[0], 0)
+            # Button for transaction removal: text, index, name, value
+            self.addWidget(ClickableLabel(" - ", i, transaction[1], transaction[0], callback),rowpos[0], 0)
             rowpos[0] += 1
         self.addWidget(QLabel(),rowpos[0], 0)
         rowpos[0] += 1
@@ -56,17 +59,17 @@ class ClickableLabel(QLabel):
 
     clicked = pyqtSignal()
 
-    def __init__(self, name:str ="" , parent=None):
+    def __init__(self, text:str ="" , index:int=-1, name:str = "", value:float= 0, method: Optional[Callable] = None, parent=None):
         super().__init__(parent)
         self.setEnabled(True)
-        self.setText(name)
+        self.setText(text)
         self.setStyleSheet("background-color: rgb(250, 50, 50); border: 0px;  color: white; margin: 5px; border-radius:5px; ")
         self.setAlignment(Qt.AlignCenter) # Align text horizontally and vertically
-        self.clicked.connect(self._label_clicked)
+        self.clicked.connect(partial(self._label_clicked, method, index, name, value))
     
-    def _label_clicked(self):
-        self.setStyleSheet("background-color: rgb(47, 117, 250); color: white; border: 0px; border-radius:5px; margin: 5px")
-
+    def _label_clicked(self, method: Optional[Callable] = None, index:int=-1, name:str = "", value:float= 0):
+        method(index, name, value);
+    
     def mousePressEvent(self, event):
         # Remove transaction
         self.clicked.emit()

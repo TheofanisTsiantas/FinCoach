@@ -189,7 +189,7 @@ class View_Main_Frame(QFrame):
     # Update the view of the transactions for a selected month
     # transactions:dict --> { CATEGORY : [  [cost, description]  ,  [cost, description]  ] }
     def update_transactions_view(self, transactions:dict):
-        transactions_layout = View_Transactions(transactions)
+        transactions_layout = View_Transactions(transactions, self.transaction_deleted)
         transactions_frame = QWidget()
         self.scroll_area.setWidget(QWidget())
         self.scroll_area.setWidgetResizable(True)  # So content can expand inside
@@ -204,3 +204,11 @@ class View_Main_Frame(QFrame):
     # Update the scatter chart of the transaction distribution through time
     def update_expense_evolution_graph_view(self, expense_evolution:dict):
         self.graphs_menu.update_expense_evolution_graph(expense_evolution)
+
+    def transaction_deleted(self, transaction_id:int=-1, transaction_name:str="", transaction_value:float=0.0):
+        # Check input 
+        if transaction_id==-1 or transaction_name=="":
+            # Error message!
+            return
+        
+        
