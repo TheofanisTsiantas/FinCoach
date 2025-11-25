@@ -81,7 +81,7 @@ class Controller_Main_Frame:
         months = self.model.get_months()
         months.sort()
         # Call view update
-        self.view_object.update_months_view(months)
+        self.view_object.update_months_view(months, self.selected_month)
         # Remove any list with transactions
         self._update_transactions_view()
 

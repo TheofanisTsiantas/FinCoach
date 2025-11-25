@@ -176,9 +176,9 @@ class View_Main_Frame(QFrame):
             json.dump(res, f)
         Info_Message_Dialog(Success_Messages.FILE_SAVE.value).exec()
 
-    # Update the view of the list of months which have been read
-    def update_months_view(self, months:list):
-        months_layout = View_Months(months, self.select_month)
+    # Update the view of the list of months which have been read. If a selected month is passed, it will be shown in the GUI so.
+    def update_months_view(self, months:list, selected_month:str):
+        months_layout = View_Months(months, selected_month, self.select_month)
         # Remove old layout (by setting the parent to a temp object)
         QWidget().setLayout(self.months_frame.layout())
         # Assign the new Layout

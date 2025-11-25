@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from Controllers.c1001_Main_Frame import Controller_Main_Frame
 
 class View_Months(QVBoxLayout):
-    def __init__(self, months:list =[] , callback:Optional[Callable]=None,  parent=None):
+    def __init__(self, months:list =[] , selected_month:str = "", callback:Optional[Callable]=None,  parent=None):
         super().__init__(parent)
 
         self.setSpacing(3)
@@ -34,6 +34,8 @@ class View_Months(QVBoxLayout):
                 label = ClickableLabel(month)
                 label.setEnabled(True)
                 label.setStyleSheet("border: 0px; margin: 5px")
+                if month==selected_month:
+                    label.setStyleSheet("background-color: rgb(47, 117, 250); color: white; border: 0px; border-radius:5px; margin: 5px")
                 self.addWidget(label)
                 self.labels.append(label)
                 label.clicked.connect(partial(self._label_clicked, label.text(), callback))
