@@ -35,22 +35,26 @@ class Controller_Main_Frame:
     # Commands model to override its data
     def overwrite_dataframe(self, path : str):
         self.model.overwrite_dataframe(path)
-
         # Update the view of the months
         self._update_months_view()
-        # Update the expenses plot
+        # Update the expense evolution plot
         self._update_expense_evolution_graph_view()
         # Set transactions to empty list
-        self.update_transactions_view()
+        self._update_transactions_view()
         # Set pie chart to empty
-        self.update_expense_distribution_graph_view()
-
-
+        self._update_expense_distribution_graph_view()
         return Success_Messages.DATA_READ
 
     # Get data as a dictionary
     def get_Data_Dict(self):
         return self.model.get_Data_Dict()
+
+    # Controller fetches appropriate data of newly selected month to update correspoding view graphs 
+    def new_month_selected(self, selected_month=""):
+        # Inform the cotroller that transactions must be updated according to selected "month"
+        self._update_transactions_view(selected_month)
+        # Inform the cotroller that pie view must be updated according to selected "month"
+        self._update_expense_distribution_graph_view(selected_month)
 
     # private method which calls the view to update months
     def _update_months_view(self):
@@ -60,10 +64,10 @@ class Controller_Main_Frame:
         # Call view update
         self.view_object.update_months_view(months)
         # Remove any list with transactions
-        self.update_transactions_view()
+        self._update_transactions_view()
 
     # Update the view of the transactions for a selected month
-    def update_transactions_view(self, selected_month:str=''):
+    def _update_transactions_view(self, selected_month:str=''):
         if selected_month=='':
             self.view_object.update_transactions_view({})
         else:
@@ -71,7 +75,7 @@ class Controller_Main_Frame:
             self.view_object.update_transactions_view(transactions)
 
     # Update the pie chart of the expense distribution per month
-    def update_expense_distribution_graph_view(self, selected_month:str=''):
+    def _update_expense_distribution_graph_view(self, selected_month:str=''):
         if selected_month=='':
             self.view_object.update_expense_distribution_graph_view({}, "")
         else:
