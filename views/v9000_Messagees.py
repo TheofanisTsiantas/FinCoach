@@ -59,7 +59,7 @@ class Yes_No_Dialog(QDialog):
 class Info_Message_Dialog(QDialog):
     def __init__(self, message):
         super().__init__()
-        self.setWindowTitle("Error")
+        self.setWindowTitle("Info")
         self.setFixedSize(300, 150)
         self.init_ui(message)
 
